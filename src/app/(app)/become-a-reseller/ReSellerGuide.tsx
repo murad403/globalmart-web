@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 import React from 'react'
 
 const ReSellerGuide = () => {
@@ -12,9 +13,11 @@ const ReSellerGuide = () => {
           Are you a wholesaler, supplier, or manufacturer who wants to sell in bulk?
           Contact us to become a verified wholesaler on our platform.
         </p>
-        <Button className='mt-4'>
-          BECOME A Reseller
-        </Button>
+        <Link href="/auth/reseller-terms-and-conditions">
+          <Button className="mt-4">
+            BECOME A Reseller
+          </Button>
+        </Link>
       </div>
     </section>
   )

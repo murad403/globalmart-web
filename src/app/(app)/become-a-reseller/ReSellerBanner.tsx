@@ -3,6 +3,7 @@ import Image from 'next/image'
 import resellerBanner from '@/assets/home/resellerbanner.png'
 import { ArrowRight, BadgeCheck, Check, TrendingUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 const ReSellerBanner = () => {
   return (
@@ -29,10 +30,12 @@ const ReSellerBanner = () => {
             </p>
 
             <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+              <Link href="/auth/reseller-terms-and-conditions">
               <Button>
                 Become a Reseller
                 <ArrowRight className="h-5 w-5" />
               </Button>
+              </Link>
 
               <div className="flex items-center gap-3">
                 <div className="flex items-center -space-x-2">

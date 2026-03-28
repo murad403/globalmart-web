@@ -88,7 +88,7 @@ const WholesalerSignInPage = () => {
 
             <p className="mt-4 text-center text-lg text-description">
               Don&apos;t have an account?{' '}
-              <Link href="/" className="font-semibold text-heading hover:underline">
+              <Link href="/auth/wholesaler-terms-and-conditions" className="font-semibold text-heading hover:underline">
                 Create one now
               </Link>
             </p>

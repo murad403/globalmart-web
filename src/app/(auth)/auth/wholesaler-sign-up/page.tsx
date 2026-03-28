@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 
 type DocumentType = 'identityDocument' | 'passport' | 'businessRegistration' | 'taxCertificate'
 
-const ResellerSignUpPage = () => {
+const WholeSalerSignUpPage = () => {
     const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
   const [businessType, setBusinessType] = useState('individual')
@@ -572,4 +572,4 @@ const ResellerSignUpPage = () => {
   )
 }
 
-export default ResellerSignUpPage
+export default WholeSalerSignUpPage
