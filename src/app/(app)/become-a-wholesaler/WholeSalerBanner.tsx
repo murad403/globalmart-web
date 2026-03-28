@@ -40,11 +40,11 @@ const WholeSalerBanner = () => {
               Join 10,000+ Successful Wholesalers
             </p>
 
-            <h1 className="text-title text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+            <h1 className="text-title text-4xl sm:text-5xl lg:text-6xl max-w-sm font-bold leading-tight">
               Start Selling <span className="text-main">Verified</span>
-              <br />
+              
               Wholesalers&apos; Products
-              <br />
+           
               <span className="text-heading">Online Today</span>
             </h1>
 
