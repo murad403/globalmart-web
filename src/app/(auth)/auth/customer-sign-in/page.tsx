@@ -1,7 +1,6 @@
 'use client'
-
 import Link from 'next/link'
-import { ArrowRight, AtSign, Eye, EyeOff, Lock, PackageCheck, TrendingUp, UserCircle2 } from 'lucide-react'
+import { ArrowRight, AtSign, Eye, EyeOff, Lock, PackageCheck, UserCircle2 } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -119,7 +118,7 @@ const CustomerSignInPage = () => {
 
             <p className="mt-4 text-center text-lg text-description">
               Don&apos;t have an account?{' '}
-              <Link href="/" className="font-semibold text-main hover:underline">
+              <Link href="/auth/customer-sign-up" className="font-semibold text-main hover:underline">
                 Create Account
               </Link>
             </p>

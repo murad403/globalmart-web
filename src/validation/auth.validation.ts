@@ -79,3 +79,21 @@ export type ResellerStep2Values = z.infer<typeof resellerStep2Schema>
 export type ResellerStep3Values = z.infer<typeof resellerStep3Schema>
 export type ResellerStep4Values = z.infer<typeof resellerStep4Schema>
 export type ResellerCompleteSignUpValues = z.infer<typeof resellerCompleteSignUpSchema>
+
+
+export const customerSignUpSchema = z
+  .object({
+    role: z.enum(['wholesaler', 'reseller', 'customer']),
+    firstName: z.string().min(1, 'First name is required').min(2, 'Enter a valid first name'),
+    lastName: z.string().min(1, 'Last name is required').min(2, 'Enter a valid last name'),
+    email: z.email('Please enter a valid email address.'),
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters long.')
+      .max(64, 'Password must be at most 64 characters long.'),
+    confirmPassword: z.string().min(6, 'Confirm password must be at least 6 characters long.')
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword']
+  })
