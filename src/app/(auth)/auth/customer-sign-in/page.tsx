@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, AtSign, Eye, Lock, PackageCheck, TrendingUp, UserCircle2 } from 'lucide-react'
+import { ArrowRight, AtSign, Eye, EyeOff, Lock, PackageCheck, TrendingUp, UserCircle2 } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
@@ -14,6 +15,7 @@ import {
 
 
 const CustomerSignInPage = () => {
+  const [showPassword, setShowPassword] = useState(false)
   const { register, handleSubmit, formState: { errors, isSubmitting }} = useForm<CustomerSignInValues>({
     resolver: zodResolver(customerSignInSchema)
   })
@@ -64,12 +66,18 @@ const CustomerSignInPage = () => {
                 <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3">
                   <Lock className="size-4 text-slate-400" />
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="Enter your password"
                     className="h-full w-full border-none py-3 bg-transparent text-md rounded-lg text-title outline-none placeholder:text-slate-400"
                     {...register('password')}
                   />
-                  <Eye className="size-4 text-slate-400" />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-slate-400 hover:text-slate-600"
+                  >
+                    {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                  </button>
                 </div>
                 {errors.password?.message && (
                   <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
