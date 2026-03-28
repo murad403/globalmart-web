@@ -33,7 +33,7 @@ const features = [
 
 const WhyChooseOurPlatform = () => {
   return (
-    <section className="w-full bg-[#F4F4F5] px-4 py-12 md:py-16">
+    <section className="w-full px-4 py-12 md:py-16">
       <div className="container mx-auto">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-title text-3xl md:text-4xl font-bold">Why Choose Our Platform?</h2>
@@ -42,20 +42,20 @@ const WhyChooseOurPlatform = () => {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {features.map((feature) => {
             const Icon = feature.icon
 
             return (
               <article
                 key={feature.id}
-                className={`rounded-2xl border border-slate-200/70 px-6 py-8 text-center ${feature.cardBg}`}
+                className={`rounded-xl border border-slate-200/70 px-6 py-8 text-center ${feature.cardBg}`}
               >
-                <div className="mx-auto mb-5 w-fit rounded-xl p-3 text-white shadow-sm">
-                  <div className={`rounded-lg p-2 ${feature.iconBg}`}>
-                    <Icon className="h-5 w-5" />
+              
+                  <div className={`rounded-lg p-3 ${feature.iconBg} inline-block`}>
+                    <Icon className="size-6 text-white" />
                   </div>
-                </div>
+             
 
                 <h3 className="text-title text-xl font-bold">{feature.title}</h3>
                 <p className="mt-3 text-description text-sm leading-relaxed">{feature.description}</p>

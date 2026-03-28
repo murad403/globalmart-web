@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 
 const ReSellerBanner = () => {
   return (
-    <section className="w-full bg-[#F4F4F5] px-4 py-12 md:py-16 lg:py-20">
+    <section className="w-full bg-[#FCF9F5] px-4 py-12 md:py-16 lg:py-20">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div>

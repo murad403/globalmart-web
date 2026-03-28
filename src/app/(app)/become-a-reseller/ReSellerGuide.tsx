@@ -3,7 +3,7 @@ import React from 'react'
 
 const ReSellerGuide = () => {
   return (
-    <section className="w-full bg-[#EFF6FF] px-4 py-14 md:py-16">
+    <section className="w-full bg-[#EFF6FF] rounded-xl px-4 py-14 md:py-16">
       <div className="container mx-auto text-center">
         <h2 className="text-title text-2xl md:text-4xl font-bold leading-tight">
           Start Selling as wholesaler, supplier, or manufacturer
