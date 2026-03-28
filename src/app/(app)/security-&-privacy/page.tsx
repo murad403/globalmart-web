@@ -14,7 +14,12 @@ const SecurityAndPrivacyPage = () => {
             <div className="container mx-auto px-4">
                 <div className="mx-auto max-w-4xl">
                     <div className='text-center'>
-                        <p className="text-sm font-semibold uppercase tracking-wide text-main">Security Settings</p>
+                        <div className='flex items-center justify-center gap-2'>
+                            <div className='bg-blue-200 p-2 rounded-full'>
+                                <Lock className='size-4 text-main' />
+                            </div>
+                            <p className="text-sm font-semibold uppercase tracking-wide text-main">SECURITY SETTINGS</p>
+                        </div>
                         <h1 className="mt-2 text-4xl font-bold text-title">
                             Change your <span className="text-main">Password</span>
                         </h1>
