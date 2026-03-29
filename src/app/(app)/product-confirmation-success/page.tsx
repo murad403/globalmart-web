@@ -1,9 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { ArrowLeft, ArrowRight, Check, Layers } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, ChevronLeft, Layers } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import product2 from '@/assets/home/product2.png'
+import confirm from '@/assets/home/confirm.png'
+import { Button } from '@/components/ui/button'
 
 const ProductConfirmationSuccessPage = () => {
   const router = useRouter()
@@ -15,10 +16,10 @@ const ProductConfirmationSuccessPage = () => {
           <button
             type="button"
             onClick={() => router.back()}
-            className="inline-flex items-center gap-3 text-title"
+            className="inline-flex items-center gap-3 text-title cursor-pointer"
           >
             <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50">
-              <ArrowLeft className="h-5 w-5" />
+              <ChevronLeft className="h-5 w-5" />
             </span>
             <span className="text-xl font-semibold">Back</span>
           </button>
@@ -26,10 +27,10 @@ const ProductConfirmationSuccessPage = () => {
           <h1 className="mt-6 text-4xl font-bold text-title">Product Confirmation</h1>
           <p className="mt-2 text-2xl text-description">Let&apos;s create your account</p>
 
-          <div className="mt-8 grid items-center gap-8 rounded-xl border border-slate-200 bg-white p-6 md:grid-cols-2">
+          <div className="mt-8 grid items-center gap-8 bg-white p-6 md:grid-cols-2">
             <div className="relative mx-auto h-64 w-full max-w-md overflow-hidden rounded-2xl bg-slate-50 md:h-72">
               <Image
-                src={product2}
+                src={confirm}
                 alt="Order confirmation"
                 fill
                 className="object-cover"
@@ -50,20 +51,20 @@ const ProductConfirmationSuccessPage = () => {
               <div className="mt-6 flex flex-wrap justify-center gap-3 md:justify-start">
                 <button
                   type="button"
-                  onClick={() => router.push('/home')}
-                  className="inline-flex items-center gap-2 rounded-md border border-main px-5 py-3 text-sm font-semibold text-main transition hover:bg-[#EEF4FF]"
+                  onClick={() => router.push('/profile')}
+                  className="inline-flex items-center gap-2 rounded-md border border-main px-5 py-3 text-sm font-semibold text-main transition hover:bg-[#EEF4FF] cursor-pointer"
                 >
                   <Layers className="h-4 w-4" />
                   GO TO DASHBOARD
                 </button>
-                <button
+                <Button
                   type="button"
                   onClick={() => router.push('/track-order')}
-                  className="inline-flex items-center gap-2 rounded-md bg-heading px-5 py-3 text-sm font-semibold text-white transition hover:opacity-95"
+                  
                 >
                   VIEW ORDER
                   <ArrowRight className="h-4 w-4" />
-                </button>
+                </Button>
               </div>
             </div>
           </div>

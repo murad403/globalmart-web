@@ -1,9 +1,15 @@
 'use client'
-
-import { ArrowLeft, ArrowRight, CircleDot, CreditCard, Truck } from 'lucide-react'
+import Image from 'next/image'
+import { ArrowLeft, ArrowRight, ChevronLeft, CircleDot, CreditCard, Truck } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { orderSummary, paymentMethods, shippingMethods } from '../checkout-data'
+import PaypalLogo from '@/assets/home/payment.png'
+import MastercardLogo from '@/assets/home/Master card.png'
+import RaceCouriersLogo from '@/assets/home/Shipping company.png'
+import TranscoCargoLogo from '@/assets/home/Shipping=Transcocargo.png'
+import { Button } from '@/components/ui/button'
+
 
 const formatMoney = (value: number) => `Tk ${value.toFixed(2)}`
 
@@ -19,10 +25,10 @@ const ShippingAndPaymentsPage = () => {
           <button
             type="button"
             onClick={() => router.back()}
-            className="inline-flex items-center gap-3 text-title"
+            className="inline-flex items-center gap-3 text-title cursor-pointer"
           >
             <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50">
-              <ArrowLeft className="h-5 w-5" />
+              <ChevronLeft className="h-5 w-5" />
             </span>
             <span className="text-xl font-semibold">Back</span>
           </button>
@@ -41,6 +47,10 @@ const ShippingAndPaymentsPage = () => {
 
                 {paymentMethods.map((method) => {
                   const isSelected = selectedPayment === method.id
+                  let logoImage = null
+                  
+                  if (method.title === 'Paypal') logoImage = PaypalLogo
+                  else if (method.title === 'Mastercard') logoImage = MastercardLogo
 
                   return (
                   <button
@@ -49,17 +59,28 @@ const ShippingAndPaymentsPage = () => {
                     onClick={() => setSelectedPayment(method.id)}
                     className={`w-full rounded-md border p-3 text-left transition ${
                       isSelected
-                        ? 'border-main bg-[#EEF4FF]'
+                        ? 'border-main bg-[#E9E9E9]'
                         : 'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
-                      {isSelected ? (
-                        <CircleDot className="h-4 w-4 text-main" />
-                      ) : (
-                        <span className="h-4 w-4 rounded-full border border-slate-300" />
-                      )}
-                      <p className="text-sm font-semibold text-title">{method.title}</p>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-3">
+                        {isSelected ? (
+                          <CircleDot className="h-4 w-4 text-main shrink-0" />
+                        ) : (
+                          <span className="h-4 w-4 rounded-full border border-slate-300 shrink-0" />
+                        )}
+                        {logoImage && (
+                          <Image
+                            src={logoImage}
+                            alt={method.title}
+                            width={60}
+                            height={40}
+                            className="h-10 w-auto object-contain"
+                          />
+                        )}
+                        {!logoImage && <p className="text-sm font-semibold text-title">{method.title}</p>}
+                      </div>
                     </div>
                     <p className="mt-2 text-xs leading-5 text-description">{method.description}</p>
                   </button>
@@ -76,6 +97,10 @@ const ShippingAndPaymentsPage = () => {
 
                 {shippingMethods.map((method) => {
                   const isSelected = selectedShipping === method.id
+                  let logoImage = null
+                  
+                  if (method.title === 'RaceCouriers') logoImage = RaceCouriersLogo
+                  else if (method.title === 'TranscoCargo') logoImage = TranscoCargoLogo
 
                   return (
                   <button
@@ -84,18 +109,27 @@ const ShippingAndPaymentsPage = () => {
                     onClick={() => setSelectedShipping(method.id)}
                     className={`w-full rounded-md border p-3 text-left transition ${
                       isSelected
-                        ? 'border-main bg-[#EEF4FF]'
+                        ? 'border-main bg-[#E9E9E9]'
                         : 'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-3">
                         {isSelected ? (
-                          <CircleDot className="h-4 w-4 text-main" />
+                          <CircleDot className="h-4 w-4 text-main shrink-0" />
                         ) : (
-                          <span className="h-4 w-4 rounded-full border border-slate-300" />
+                          <span className="h-4 w-4 rounded-full border border-slate-300 shrink-0" />
                         )}
-                        <p className="text-sm font-semibold text-title">{method.title}</p>
+                        {logoImage && (
+                          <Image
+                            src={logoImage}
+                            alt={method.title}
+                            width={80}
+                            height={40}
+                            className="h-10 w-auto object-contain"
+                          />
+                        )}
+                        {!logoImage && <p className="text-sm font-semibold text-title">{method.title}</p>}
                       </div>
                     </div>
 
@@ -150,14 +184,14 @@ const ShippingAndPaymentsPage = () => {
                   <span className="text-sm font-semibold text-description">Total Price</span>
                   <span className="text-xl font-bold text-title">{formatMoney(orderSummary.total)}</span>
                 </div>
-                <button
+                <Button
                   type="button"
                   onClick={() => router.push('/product-confirmation')}
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-heading px-4 py-3 text-sm font-semibold text-white transition hover:opacity-95"
+                  className="w-full mt-2"
                 >
                   NEXT
                   <ArrowRight className="h-4 w-4" />
-                </button>
+                </Button>
               </div>
             </aside>
           </div>

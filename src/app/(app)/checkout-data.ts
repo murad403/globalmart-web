@@ -107,23 +107,10 @@ export const paymentMethods = [
     title: 'Mastercard',
     description:
       'Pay by debit or credit card from any major bank with end-to-end transaction protection.'
-  },
-  {
-    id: 'bitcoin',
-    title: 'Bitcoin',
-    description:
-      'Use cryptocurrency payments for a modern checkout process with fast transfer confirmation.'
   }
 ]
 
 export const shippingMethods = [
-  {
-    id: 'ausff',
-    title: 'AUSFF',
-    deliveryTime: '14-21 days',
-    shippingCost: 16,
-    insurance: 'Unavailable'
-  },
   {
     id: 'racecouriers',
     title: 'RaceCouriers',
