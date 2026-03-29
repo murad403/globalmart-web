@@ -64,16 +64,16 @@ const Navbar = () => {
                 )}
               </Link>
 
-              <button className="p-2 hover:bg-white/20 rounded-lg transition">
+              <Link href="/wishlist" className="p-2 hover:bg-white/20 rounded-lg transition">
                 <Heart size={20} />
-              </button>
+              </Link>
 
-              <button className="relative p-2 hover:bg-white/20 rounded-lg transition">
+              <Link href={"/cart"} className="relative p-2 hover:bg-white/20 rounded-lg transition">
                 <ShoppingCart size={20} />
                 <span className="absolute -top-1 -right-1 bg-heading text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   0
                 </span>
-              </button>
+              </Link>
 
               <Link href="/auth/customer-sign-in" className="bg-white text-main hover:bg-gray-100 font-semibold px-6 py-2.5 rounded-lg text-sm">
                 Login
@@ -119,16 +119,16 @@ const Navbar = () => {
                 <Search size={18} />
               </button>
 
-              <button className="p-2 hover:bg-white/20 rounded-lg transition">
+              <Link href="/wishlist" className="p-2 hover:bg-white/20 rounded-lg transition">
                 <Heart size={18} />
-              </button>
+              </Link>
 
-              <button className="relative p-2 hover:bg-white/20 rounded-lg transition">
+              <Link href="/cart" className="relative p-2 hover:bg-white/20 rounded-lg transition">
                 <ShoppingCart size={18} />
                 <span className="absolute -top-1 -right-1 bg-heading text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
                   0
                 </span>
-              </button>
+              </Link>
 
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -171,7 +171,7 @@ const Navbar = () => {
               >
                 All Products
               </Link>
-              <Link href={'/auth/customer-sign-in'} className="w-full bg-white text-main hover:bg-gray-100 font-semibold py-2.5 rounded-lg transition text-sm">
+              <Link href={'/auth/customer-sign-in'} className="w-full px-10 bg-white text-main hover:bg-gray-100 font-semibold py-2.5 rounded-lg transition text-sm">
                 Login
               </Link>
             </div>
