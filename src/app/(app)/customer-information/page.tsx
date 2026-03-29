@@ -1,19 +1,21 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import countryList from 'react-select-country-list'
+import { City } from 'country-state-city'
+import { ArrowRight, ChevronLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { orderSummary } from '../checkout-data'
+import { Button } from '@/components/ui/button'
 
-const formatMoney = (value: number) => `Tk ${value.toFixed(2)}`
+const formatMoney = (value: number) => `$ ${value.toFixed(2)}`
 
-const countryStateMap: Record<string, string[]> = {
-  Bangladesh: ['Dhaka', 'Chattogram', 'Rajshahi', 'Khulna', 'Barishal'],
-  Australia: ['Melbourne', 'Sydney', 'Brisbane', 'Perth', 'Adelaide'],
-  India: ['Bengaluru', 'Mumbai', 'Delhi', 'Kolkata', 'Chennai'],
-  USA: ['California', 'Texas', 'Florida', 'New York', 'Washington']
+type CountryOption = {
+  value: string
+  label: string
 }
 
 const customerInfoSchema = z.object({
@@ -21,7 +23,7 @@ const customerInfoSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
   lastName: z.string().min(2, 'Last name must be at least 2 characters'),
   country: z.string().min(1, 'Please select a country'),
-  state: z.string().min(1, 'Please select a state/region'),
+  city: z.string().min(1, 'Please select a city'),
   address: z.string().min(5, 'Address must be at least 5 characters'),
   phone: z
     .string()
@@ -33,27 +35,28 @@ type CustomerInfoFormValues = z.infer<typeof customerInfoSchema>
 
 const CustomerInformationPage = () => {
   const router = useRouter()
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors }
-  } = useForm<CustomerInfoFormValues>({
+  const { register, handleSubmit, control, setValue, formState: { errors }} = useForm<CustomerInfoFormValues>({
     resolver: zodResolver(customerInfoSchema),
     defaultValues: {
       email: '',
       firstName: '',
       lastName: '',
       country: '',
-      state: '',
+      city: '',
       address: '',
       phone: ''
     }
   })
 
+  const countryOptions = useMemo<CountryOption[]>(() => countryList().getData() as CountryOption[], [])
   const selectedCountry = useWatch({ control, name: 'country' })
-  const stateOptions = selectedCountry ? countryStateMap[selectedCountry] ?? [] : []
+  const cityOptions = useMemo(() => {
+    if (!selectedCountry) {
+      return []
+    }
+
+    return City.getCitiesOfCountry(selectedCountry) ?? []
+  }, [selectedCountry])
 
   const onSubmit = () => {
     router.push('/shipping-&-payments')
@@ -68,8 +71,8 @@ const CustomerInformationPage = () => {
             onClick={() => router.back()}
             className="inline-flex items-center gap-3 text-title"
           >
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50">
-              <ArrowLeft className="h-5 w-5" />
+            <span className="inline-flex h-11 cursor-pointer w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50">
+              <ChevronLeft className="h-5 w-5" />
             </span>
             <span className="text-xl font-semibold">Back</span>
           </button>
@@ -133,14 +136,14 @@ const CustomerInformationPage = () => {
                     <select
                       id="country"
                       {...register('country', {
-                        onChange: () => setValue('state', '')
+                        onChange: () => setValue('city', '')
                       })}
                       className="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-main"
                     >
                       <option value="">Select country</option>
-                      {Object.keys(countryStateMap).map((country) => (
-                        <option key={country} value={country}>
-                          {country}
+                      {countryOptions.map((country) => (
+                        <option key={country.value} value={country.value}>
+                          {country.label}
                         </option>
                       ))}
                     </select>
@@ -148,23 +151,23 @@ const CustomerInformationPage = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="state" className="mb-2 block text-xs font-semibold uppercase tracking-wide text-description">
-                      State/Region
+                    <label htmlFor="city" className="mb-2 block text-xs font-semibold uppercase tracking-wide text-description">
+                      City
                     </label>
                     <select
-                      id="state"
-                      {...register('state')}
+                      id="city"
+                      {...register('city')}
                       disabled={!selectedCountry}
                       className="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-main disabled:cursor-not-allowed disabled:bg-slate-100"
                     >
-                      <option value="">Select state/region</option>
-                      {stateOptions.map((state) => (
-                        <option key={state} value={state}>
-                          {state}
+                      <option value="">Select city</option>
+                      {cityOptions.map((city) => (
+                        <option key={`${city.countryCode}-${city.name}`} value={city.name}>
+                          {city.name}
                         </option>
                       ))}
                     </select>
-                    {errors.state && <p className="mt-1 text-xs text-red-500">{errors.state.message}</p>}
+                    {errors.city && <p className="mt-1 text-xs text-red-500">{errors.city.message}</p>}
                   </div>
                 </div>
               </div>
@@ -229,14 +232,14 @@ const CustomerInformationPage = () => {
                   <span className="text-sm font-semibold text-description">Total Price</span>
                   <span className="text-xl font-bold text-title">{formatMoney(orderSummary.total)}</span>
                 </div>
-                <button
+                <Button
                   type="submit"
                   form="customer-form"
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-heading px-4 py-3 text-sm font-semibold text-white transition hover:opacity-95"
+                  className='mt-2 w-full'
                 >
                   NEXT
                   <ArrowRight className="h-4 w-4" />
-                </button>
+                </Button>
               </div>
             </aside>
           </form>
