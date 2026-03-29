@@ -1,5 +1,5 @@
 import React from 'react'
-import { Star, RotateCcw } from 'lucide-react'
+import { Star, ArrowUpWideNarrow } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 
@@ -25,7 +25,7 @@ type FilterProps = {
 
 const SectionTitle = ({ title }: { title: string }) => {
   return (
-    <h2 className="mb-3 border-l-2 border-heading pl-2 text-sm font-bold text-title">
+    <h2 className="mb-3 border-l-2 border-heading pl-2 text-base md:text-lg font-bold text-title">
       {title}
     </h2>
   )
@@ -43,10 +43,15 @@ const Toggle = ({
       type="button"
       aria-pressed={checked}
       onClick={() => onChange(!checked)}
-      className={`relative h-5 w-9 rounded-full transition ${checked ? 'bg-main' : 'bg-slate-300'}`}
+      style={{ backgroundColor: checked ? 'var(--color-heading)' : '#e2e8f0' }}
+      className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
     >
       <span
-        className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition ${checked ? 'left-4' : 'left-0.5'}`}
+        style={{
+          transform: checked ? 'translateX(20px)' : 'translateX(0px)',
+          transition: 'transform 200ms ease-in-out'
+        }}
+        className="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-md"
       />
     </button>
   )
@@ -72,7 +77,7 @@ const Filter = ({
   onClearAll
 }: FilterProps) => {
   return (
-    <aside className="space-y-7 text-sm text-description">
+    <aside className="space-y-8 text-sm text-description">
       <section>
         <SectionTitle title="Categories" />
 
@@ -183,9 +188,9 @@ const Filter = ({
       <button
         type="button"
         onClick={onClearAll}
-        className="inline-flex items-center gap-1 text-xs font-semibold text-red-500 transition hover:text-red-600"
+        className="inline-flex items-center gap-1 cursor-pointer text-xs font-semibold text-red-500 transition hover:text-red-600"
       >
-        <RotateCcw className="size-3.5" />
+        <ArrowUpWideNarrow className="size-3.5" />
         <span>Clear All Filters</span>
       </button>
     </aside>

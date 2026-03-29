@@ -3,9 +3,6 @@
 import React, { useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ChevronLeft, LayoutGrid } from 'lucide-react'
-import product1 from '@/assets/home/product1.png'
-import product2 from '@/assets/home/product2.png'
-import product3 from '@/assets/home/product3.png'
 import Filter from './Filter'
 import Products, { type ProductViewItem } from './Products'
 
@@ -37,7 +34,6 @@ const productBlueprints = [
     basePrice: 125,
     baseRating: 4.7,
     baseReviews: 21671,
-    image: product1,
     flashLabel: 'Flash Deal Ends In 5 Hours !'
   },
   {
@@ -45,7 +41,6 @@ const productBlueprints = [
     basePrice: 125,
     baseRating: 4.7,
     baseReviews: 21671,
-    image: product2,
     flashLabel: 'Flash Deal Ends In 5 Hours !'
   },
   {
@@ -53,7 +48,6 @@ const productBlueprints = [
     basePrice: 125,
     baseRating: 4.7,
     baseReviews: 21671,
-    image: product3,
     flashLabel: 'Flash Deal Ends In 5 Hours !'
   }
 ]
@@ -75,7 +69,6 @@ const allProducts: ProductViewItem[] = Array.from({ length: 145 }, (_, index) =>
     price: blueprint.basePrice + (cycle % 5) * 10,
     rating: Math.max(3.5, Number((blueprint.baseRating - (cycle % 4) * 0.2).toFixed(1))),
     reviews: blueprint.baseReviews + cycle * 2,
-    image: blueprint.image,
     flashLabel: blueprint.flashLabel,
     category: categoryOptions[cycle % categoryOptions.length],
     inStock: cycle % 6 !== 0,
@@ -161,6 +154,8 @@ const AllProductsPage = () => {
     return sortedProducts.slice(startIndex, startIndex + itemsPerPage)
   }, [sortedProducts, safeCurrentPage, itemsPerPage])
 
+  // console.log(sortedProducts);
+
   const showingFrom = sortedProducts.length === 0 ? 0 : (safeCurrentPage - 1) * itemsPerPage + 1
   const showingTo = Math.min(sortedProducts.length, safeCurrentPage * itemsPerPage)
 
@@ -224,7 +219,7 @@ const AllProductsPage = () => {
       <div className="container mx-auto">
 
         {/* Top Bar */}
-        <section className="mb-7 grid grid-cols-1 gap-3 border-b border-slate-200 pb-4 md:grid-cols-3 md:items-center">
+        <section className="mb-10 grid grid-cols-1 gap-3 md:grid-cols-3 md:items-center">
 
           {/* Left side */}
           <div className="flex items-center gap-3 md:justify-self-start">
@@ -311,9 +306,9 @@ const AllProductsPage = () => {
         )}
 
         {/* Main Grid */}
-        <section className="grid grid-cols-1 gap-8 md:grid-cols-[255px_minmax(0,1fr)] lg:grid-cols-[280px_minmax(0,1fr)] xl:grid-cols-[320px_minmax(0,1fr)]">
+        <section className="md:flex gap-8">
           {/* Desktop Filter — hidden on mobile */}
-          <div className="hidden md:block max-w-sm">
+          <div className="hidden md:block max-w-xs">
             <Filter {...filterProps} />
           </div>
 
