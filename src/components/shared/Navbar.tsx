@@ -3,11 +3,30 @@ import React, { useState } from 'react'
 import { ShoppingCart, Heart, Menu, X, Search, Bot } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import aiImage from '@/assets/home/ai.png'
 
 const Navbar = () => {
+  const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState('')
+
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const term = searchValue.trim()
+
+    if (!term) {
+      router.push('/all-products?source=all&title=All%20Product%20are%20Here!%20Grab%20It%20Fast')
+      return
+    }
+
+    router.push(
+      `/all-products?source=all&search=${encodeURIComponent(term)}&title=${encodeURIComponent('Search Results are Here! Grab It Fast')}`
+    )
+    setIsMobileMenuOpen(false)
+    setIsSearchOpen(false)
+  }
 
   return (
     <>
@@ -27,28 +46,33 @@ const Navbar = () => {
             </Link>
 
             {/* Search Bar */}
-            <div className="relative flex-1 max-w-lg">
+            <form onSubmit={handleSearchSubmit} className="relative flex-1 max-w-lg">
               <input
                 type="text"
                 placeholder="Search for anything..."
+                value={searchValue}
+                onChange={(event) => setSearchValue(event.target.value)}
                 className="w-full px-4 py-2.5 pl-4 pr-12 rounded-lg border border-white bg-transparent text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm"
               />
-              <button className="absolute right-3 top-1/2 -translate-y-1/2 text-white hover:text-white/80 transition">
+              <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-white hover:text-white/80 transition">
                 <Search size={18} />
               </button>
-            </div>
+            </form>
 
             {/* Right Actions */}
             <div className="flex items-center gap-4 shrink-0 whitespace-nowrap">
               <Link href="/" className="hover:text-gray-200 transition font-medium text-sm">
                 Home
               </Link>
-              <Link href="/all-products" className="hover:text-gray-200 transition font-medium text-sm">
+              <Link
+                href="/all-products?source=all&title=All%20Product%20are%20Here!%20Grab%20It%20Fast"
+                className="hover:text-gray-200 transition font-medium text-sm"
+              >
                 All Products
               </Link>
 
               {/* AI Image — fixed */}
-              <Link href="/ai" className="shrink-0">
+              <Link href="/ai-assistant" className="shrink-0">
                 {aiImage ? (
                   <Image
                     src={aiImage}
@@ -96,7 +120,7 @@ const Navbar = () => {
             <div className="flex items-center gap-2 shrink-0">
 
               {/* AI image mobile */}
-              <Link href="/ai" className="shrink-0">
+              <Link href="/ai-assistant" className="shrink-0">
                 {aiImage ? (
                   <Image
                     src={aiImage}
@@ -141,17 +165,19 @@ const Navbar = () => {
 
           {/* Mobile Search Bar */}
           {isSearchOpen && (
-            <div className="md:hidden mt-3 relative">
+            <form onSubmit={handleSearchSubmit} className="md:hidden mt-3 relative">
               <input
                 type="text"
                 placeholder="Search..."
                 autoFocus
+                value={searchValue}
+                onChange={(event) => setSearchValue(event.target.value)}
                 className="w-full px-3 py-2.5 pl-4 pr-10 rounded-lg bg-white/10 border border-white/30 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm"
               />
-              <button className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70">
+              <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70">
                 <Search size={16} />
               </button>
-            </div>
+            </form>
           )}
 
           {/* Mobile Menu */}
@@ -165,7 +191,7 @@ const Navbar = () => {
                 Home
               </Link>
               <Link
-                href="/all-products"
+                href="/all-products?source=all&title=All%20Product%20are%20Here!%20Grab%20It%20Fast"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="block py-2 px-3 hover:bg-white/20 rounded-lg transition font-medium"
               >

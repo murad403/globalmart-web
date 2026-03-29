@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import arrivalsBanner from '@/assets/home/arrivalsbanner.png'
 import arrivals1 from '@/assets/home/arrivals1.png'
@@ -67,9 +68,12 @@ const NewArrivals = () => {
                 Norum eleifend ut faue out. Commodo porro adipisci blanditim incididunt aspor consqu. Expedura eu vitae rutis...
               </p>
               <div className="text-4xl font-bold mb-6">$214.27</div>
-              <button className="bg-white cursor-pointer text-black hover:bg-gray-200 font-semibold py-2 px-4 rounded-lg flex items-center gap-2">
+              <Link
+                href="/all-products?source=new-arrivals&title=New%20Arrivals%20Products%20are%20Here!%20Grab%20It%20Fast"
+                className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 font-semibold text-black hover:bg-gray-200"
+              >
                 Shop Now <span>→</span>
-              </button>
+              </Link>
             </div>
             <div className="w-1/2 h-full relative">
               <Image
@@ -113,9 +117,11 @@ const NewArrivals = () => {
                     </span>
                       <Heart className='text-heading size-4'/>
                   </div>
-                   <Button>
+                  <Button asChild>
+                    <Link href="/all-products?source=new-arrivals&title=New%20Arrivals%20Products%20are%20Here!%20Grab%20It%20Fast">
                       View Product
-                    </Button>
+                    </Link>
+                  </Button>
                 </div>
               </div>
             ))}

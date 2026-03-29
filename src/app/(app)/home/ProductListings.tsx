@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import product1 from '@/assets/home/product1.png'
 import product2 from '@/assets/home/product2.png'
 import product3 from '@/assets/home/product3.png'
@@ -76,6 +77,16 @@ const ProductListings = () => {
   return (
     <section className="w-full bg-[#F9FAFB] py-12 md:py-16 px-4">
       <div className="container mx-auto">
+        <div className="mb-6 flex items-center justify-between gap-3">
+          <h2 className="border-l-4 border-heading pl-4 text-2xl font-bold text-title md:text-3xl">Product Listings</h2>
+          <Link
+            href="/all-products?source=product-listings&title=Product%20Listings%20are%20Here!%20Grab%20It%20Fast"
+            className="text-sm font-semibold text-heading hover:underline md:text-base"
+          >
+            See all products ›
+          </Link>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 mb-6 md:mb-8">
           <ProductColumn title="Best Seller" products={listings.bestSeller} />
           <ProductColumn title="Trending Products" products={listings.trending} />

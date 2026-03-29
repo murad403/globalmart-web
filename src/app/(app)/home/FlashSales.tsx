@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import product1 from '@/assets/home/product1.png'
 import product2 from '@/assets/home/product2.png'
@@ -60,8 +61,10 @@ const FlashSales = () => {
                   </p>
                 </div>
 
-                <Button className='max-w-25 mt-4'>
-                  Shop Now
+                <Button asChild className="max-w-25 mt-4">
+                  <Link href="/all-products?source=flash-sales&title=Flash%20Sales%20are%20Here!%20Grab%20It%20Fast">
+                    Shop Now
+                  </Link>
                 </Button>
               </div>
             </div>

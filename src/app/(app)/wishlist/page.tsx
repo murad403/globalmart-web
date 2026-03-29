@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { ChevronLeft, CircleX, ShoppingCart, X } from 'lucide-react'
+import { ChevronLeft, CircleX, ShoppingCart } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { initialWishlistItems } from '../checkout-data'
@@ -101,7 +101,9 @@ const WishlistPage = () => {
                                 <p className="text-lg font-semibold text-title">Your wishlist is empty.</p>
                                 <button
                                     type="button"
-                                    onClick={() => router.push('/all-products')}
+                                    onClick={() =>
+                                        router.push('/all-products?source=all&title=All%20Product%20are%20Here!%20Grab%20It%20Fast')
+                                    }
                                     className="mt-3 text-sm font-semibold text-main underline"
                                 >
                                     Browse products

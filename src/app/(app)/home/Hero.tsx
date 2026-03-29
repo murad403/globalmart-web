@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import heroImage from '@/assets/home/hero1.png'
 import product1 from '@/assets/home/hero2.png'
@@ -24,9 +25,11 @@ const Hero = () => {
                 <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-md">
                   Ïtaque non voluptatem amet out accumus. Facilis quis dolor atque dolor dolent harum quaelem.
                 </p>
-                <Button >
-                  Shop Now
-                  <span>›</span>
+                <Button asChild>
+                  <Link href="/all-products?source=all&title=All%20Product%20are%20Here!%20Grab%20It%20Fast">
+                    Shop Now
+                    <span>›</span>
+                  </Link>
                 </Button>
               </div>
 
@@ -69,9 +72,11 @@ const Hero = () => {
                   sizes="(max-width: 768px) 100vw, 25vw"
                 />
               </div>
-              <Button>
-                Shop Now
-                <span>›</span>
+              <Button asChild>
+                <Link href="/all-products?source=featured&title=Featured%20Products%20are%20Here!%20Grab%20It%20Fast">
+                  Shop Now
+                  <span>›</span>
+                </Link>
               </Button>
             </div>
 
@@ -95,9 +100,11 @@ const Hero = () => {
                   sizes="(max-width: 768px) 100vw, 25vw"
                 />
               </div>
-              <Button >
-                Shop Now
-                <span>›</span>
+              <Button asChild>
+                <Link href="/all-products?source=new-arrivals&title=New%20Arrivals%20Products%20are%20Here!%20Grab%20It%20Fast">
+                  Shop Now
+                  <span>›</span>
+                </Link>
               </Button>
             </div>
           </div>
