@@ -21,7 +21,7 @@ const ProductCard = ({ product }: { product: any }) => {
             </Link>
             {/* Product info */}
             <div className="mt-3 flex flex-col flex-1">
-                <h3 className="line-clamp-2 text-lg md:text-xl font-bold leading-snug text-title">
+                <h3 className="line-clamp-2 min-h-14 text-lg md:text-xl font-bold leading-snug text-title">
                     {product.name}
                 </h3>
 
@@ -43,7 +43,7 @@ const ProductCard = ({ product }: { product: any }) => {
                 {/* Buy button */}
                 <Button
                     type="button"
-                    className='mt-4 w-full'
+                    className='mt-auto w-full mt-4'
                 >
                     BUY NOW - ${product.price}
                 </Button>

@@ -42,7 +42,7 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm text-gray-300">
-              <li><Link href="#" className="hover:text-white transition">About Us</Link></li>
+              <li><Link href="/about-us" className="hover:text-white transition">About Us</Link></li>
               <li>
                 <Link
                   href="/all-products?source=all&title=All%20Product%20are%20Here!%20Grab%20It%20Fast"
@@ -51,8 +51,8 @@ const Footer = () => {
                   Browse Products
                 </Link>
               </li>
-              <li><Link href="#" className="hover:text-white transition">Pricing Plans</Link></li>
-              <li><Link href="#" className="hover:text-white transition">Become a Seller</Link></li>
+              <li><Link href="/become-a-reseller" className="hover:text-white transition">Become a Reseller</Link></li>
+              <li><Link href="/become-a-wholesaler" className="hover:text-white transition">Become a Wholesaler</Link></li>
             </ul>
           </div>
 
@@ -60,11 +60,11 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-lg mb-4">Support</h3>
             <ul className="space-y-2 text-sm text-gray-300">
-              <li><Link href="#" className="hover:text-white transition">Help Center</Link></li>
-              <li><Link href="#" className="hover:text-white transition">Contact Us</Link></li>
-              <li><Link href="#" className="hover:text-white transition">Terms of Service</Link></li>
-              <li><Link href="#" className="hover:text-white transition">Returns & Refunds</Link></li>
-              <li><Link href="#" className="hover:text-white transition">Privacy Policy</Link></li>
+              <li><Link href="/customer-support" className="hover:text-white transition">Contact Us</Link></li>
+              <li><Link href="/terms-of-service" className="hover:text-white transition">Terms of Service</Link></li>
+              <li><Link href="/refund-policy" className="hover:text-white transition">Returns & Refunds</Link></li>
+              <li><Link href="/privacy-policy" className="hover:text-white transition">Privacy Policy</Link></li>
+              <li><Link href="/shipping-policy" className="hover:text-white transition">Shipping Policy</Link></li>
             </ul>
           </div>
 
@@ -90,9 +90,9 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm text-gray-300 mb-4">
             <p>© {new Date().getFullYear()} Wobuy Marketplace. All rights reserved.</p>
             <div className="text-center md:text-right space-x-4">
-              <Link href="#" className="hover:text-white transition">Privacy Policy</Link>
-              <Link href="#" className="hover:text-white transition">Terms of Service</Link>
-              <Link href="#" className="hover:text-white transition">Cookie Policy</Link>
+              <Link href="/privacy-policy" className="hover:text-white transition">Privacy Policy</Link>
+              <Link href="/terms-of-service" className="hover:text-white transition">Terms of Service</Link>
+              <Link href="/cookie-policy" className="hover:text-white transition">Cookie Policy</Link>
             </div>
           </div>
 
