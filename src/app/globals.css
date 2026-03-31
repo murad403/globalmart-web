@@ -11,6 +11,8 @@
   --color-heading: #FF6900;
   --color-title: #101828;
   --color-description: #4A5565;
+
+  --color-dashboard-button: #155DFC;
 }
 
 @theme inline {
