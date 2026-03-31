@@ -1,5 +1,6 @@
 "use client"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Bell, Boxes, ChartColumn, DollarSign, LayoutGrid, LogOut, ShoppingCart, Users, UserRound, Download, Settings } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarRail, SidebarTrigger} from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,7 +12,7 @@ type WholesalerLayoutProps = {
 }
 
 const menuItems = [
-  { label: "Overview", href: "/wholesaler", icon: LayoutGrid, active: true },
+  { label: "Overview", href: "/wholesaler", icon: LayoutGrid },
   { label: "My Products", href: "/wholesaler/my-products", icon: Boxes },
   { label: "Import Products", href: "/wholesaler/import-products", icon: Download },
   { label: "Orders", href: "/wholesaler/orders", icon: ShoppingCart },
@@ -23,6 +24,16 @@ const menuItems = [
 ]
 
 export default function WholesalerLayout({ children }: WholesalerLayoutProps) {
+  const pathname = usePathname()
+
+  const isMenuActive = (href: string) => {
+    if (href === "/wholesaler") {
+      return pathname === href
+    }
+
+    return pathname.startsWith(href)
+  }
+
   return (
     <TooltipProvider delayDuration={0}>
       <SidebarProvider
@@ -59,7 +70,7 @@ export default function WholesalerLayout({ children }: WholesalerLayoutProps) {
                     <SidebarMenuItem key={item.label} className="mb-2">
                       <SidebarMenuButton
                         asChild
-                        isActive={item.active}
+                        isActive={isMenuActive(item.href)}
                         tooltip={item.label}
                         className="h-10 rounded-lg px-3 text-sm font-medium data-[active=true]:bg-main data-[active=true]:text-white group-data-[collapsible=icon]:mx-auto text-gray-300 group-data-[collapsible=icon]:justify-center"
                       >
