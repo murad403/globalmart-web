@@ -116,7 +116,7 @@ const CustomerSignInPage = () => {
               </Link>
             </div>
 
-            <p className="mt-4 text-center text-lg text-description">
+            <p className="mt-4 text-center text-base md:text-lg text-description">
               Don&apos;t have an account?{' '}
               <Link href="/auth/customer-sign-up" className="font-semibold text-main hover:underline">
                 Create Account

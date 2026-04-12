@@ -71,23 +71,6 @@ const Navbar = () => {
                 All Products
               </Link>
 
-              {/* AI Image — fixed */}
-              <Link href="/ai-assistant" className="shrink-0">
-                {aiImage ? (
-                  <Image
-                    src={aiImage}
-                    alt="AI Assistant"
-                    width={44}
-                    height={44}
-                    className="rounded-full object-cover size-8 ring-2 ring-white/30 hover:ring-white/60 transition"
-                  />
-                ) : (
-                  <div className="w-11 h-11 rounded-full bg-heading flex items-center justify-center ring-2 ring-white/30">
-                    <Bot size={20} className="text-white" />
-                  </div>
-                )}
-              </Link>
-
               <Link href="/wishlist" className="p-2 hover:bg-white/20 rounded-lg transition">
                 <Heart size={20} />
               </Link>
@@ -119,22 +102,7 @@ const Navbar = () => {
             {/* Mobile Actions */}
             <div className="flex items-center gap-2 shrink-0">
 
-              {/* AI image mobile */}
-              <Link href="/ai-assistant" className="shrink-0">
-                {aiImage ? (
-                  <Image
-                    src={aiImage}
-                    alt="AI Assistant"
-                    width={28}
-                    height={28}
-                    className="rounded-full object-cover size-7 ring-2 ring-white/30"
-                  />
-                ) : (
-                  <div className="w-8 h-8 rounded-full bg-heading flex items-center justify-center">
-                    <Bot size={16} className="text-white" />
-                  </div>
-                )}
-              </Link>
+              
 
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}

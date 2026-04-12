@@ -1,11 +1,8 @@
 import { z } from 'zod'
 
 const signInBaseSchema = z.object({
-	email: z.email('Please enter a valid email address.'),
-	password: z
-		.string()
-		.min(6, 'Password must be at least 6 characters long.')
-		.max(64, 'Password must be at most 64 characters long.')
+	email: z.string().min(1, 'Email is required').email('Please enter a valid email address.'),
+	password: z.string().min(1, 'Password is required')
 })
 
 export const customerSignInSchema = signInBaseSchema

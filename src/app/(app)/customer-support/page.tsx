@@ -1,46 +1,6 @@
 import Link from 'next/link'
-import {
-  ArrowRight,
-  CreditCard,
-  Mail,
-  MapPin,
-  Phone,
-  Shield,
-  Truck,
-  UserCircle2
-} from 'lucide-react'
 import { Button } from '@/components/ui/button'
-
-const supportCards = [
-  {
-    title: 'Security & Privacy',
-    description: 'Manage your account security and password settings.',
-    icon: Shield,
-    iconClass: 'bg-blue-100 text-main',
-    href: '/security-&-privacy'
-  },
-  {
-    title: 'Billing & Payments',
-    description: 'Update payment method and review your billing history.',
-    icon: CreditCard,
-    iconClass: 'bg-orange-100 text-heading',
-    href: '/billing-&-payments'
-  },
-  {
-    title: 'Shipping Details',
-    description: 'Track your orders and manage delivery addresses.',
-    icon: Truck,
-    iconClass: 'bg-blue-100 text-main',
-    href: '/shipping-details'
-  },
-  {
-    title: 'Business Details',
-    description: 'Track your orders and manage delivery addresses.',
-    icon: UserCircle2,
-    iconClass: 'bg-green-100 text-green-600',
-    href: '/business-details'
-  }
-] as const
+import { ArrowRight, Mail, MapPin, Phone, User } from 'lucide-react'
 
 const CustomerSupportPage = () => {
   return (
@@ -49,7 +9,8 @@ const CustomerSupportPage = () => {
 
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
-            <p className="inline-flex rounded-full bg-[#FFEBD8] px-4 py-1 text-xs font-semibold uppercase tracking-wide text-heading">
+            <p className="inline-flex items-center rounded-full bg-[#FFEBD8] px-4 py-1 text-xs font-semibold uppercase tracking-wide text-heading">
+              <User className='size-4'/>
               Support Center
             </p>
             <h1 className="mt-4 text-3xl font-bold text-title md:text-4xl">
@@ -58,27 +19,6 @@ const CustomerSupportPage = () => {
             <p className="mt-2 text-description">
               Whether you have a question about our products, orders, or just want to say hi, we are here to assist you.
             </p>
-          </div>
-
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {supportCards.map((card) => {
-              const CardIcon = card.icon
-              return (
-                <Link
-                  key={card.title}
-                  href={card.href}
-                  className="rounded-xl border border-slate-200 bg-white p-4 transition hover:border-heading/60 hover:shadow-sm"
-                >
-                  <span
-                    className={`inline-flex h-9 w-9 items-center justify-center rounded-lg ${card.iconClass}`}
-                  >
-                    <CardIcon className="h-4 w-4" />
-                  </span>
-                  <h3 className="mt-3 text-base font-bold text-title">{card.title}</h3>
-                  <p className="mt-1 text-sm text-description">{card.description}</p>
-                </Link>
-              )
-            })}
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -134,7 +74,7 @@ const CustomerSupportPage = () => {
                       <input
                         type="text"
                         placeholder="e.g., John Doe"
-                        className="h-full w-full border-none bg-transparent py-3 text-md rounded-lg text-title outline-none placeholder:text-slate-400"
+                        className="h-full w-full border-none py-3 text-md rounded-lg text-title outline-none placeholder:text-slate-400"
                       />
                     </div>
                   </div>
@@ -144,7 +84,7 @@ const CustomerSupportPage = () => {
                       <input
                         type="email"
                         placeholder="john@example.com"
-                        className="h-full w-full border-none bg-transparent py-3 text-md rounded-lg text-title outline-none placeholder:text-slate-400"
+                        className="h-full w-full border-none py-3 text-md rounded-lg text-title outline-none placeholder:text-slate-400"
                       />
                     </div>
                   </div>
@@ -157,7 +97,7 @@ const CustomerSupportPage = () => {
                       <input
                         type="tel"
                         placeholder="+1 (555) 000-0000"
-                        className="h-full w-full border-none bg-transparent py-3 text-md rounded-lg text-title outline-none placeholder:text-slate-400"
+                        className="h-full w-full border-none py-3 text-md rounded-lg text-title outline-none placeholder:text-slate-400"
                       />
                     </div>
                   </div>
@@ -167,7 +107,7 @@ const CustomerSupportPage = () => {
                       <input
                         type="text"
                         placeholder="What can we help you with?"
-                        className="h-full w-full border-none bg-transparent py-3 text-md rounded-lg text-title outline-none placeholder:text-slate-400"
+                        className="h-full w-full border-none py-3 text-md rounded-lg text-title outline-none placeholder:text-slate-400"
                       />
                     </div>
                   </div>
@@ -178,7 +118,7 @@ const CustomerSupportPage = () => {
                   <div className="rounded-lg border border-slate-200 bg-white px-3 py-2">
                     <textarea
                       placeholder="Share your detailed inquiry here..."
-                      className="h-24 w-full resize-none border-none bg-transparent text-md rounded-lg text-title outline-none placeholder:text-slate-400"
+                      className="h-24 w-full resize-none border-none text-md rounded-lg text-title outline-none placeholder:text-slate-400"
                     />
                   </div>
                 </div>
@@ -200,7 +140,7 @@ const CustomerSupportPage = () => {
               type="button"
               className="mt-4 rounded-lg bg-white px-5 py-2 text-sm font-semibold text-title transition hover:bg-slate-100"
             >
-              View FAQs
+              <Link href="/faq">View FAQs</Link>
             </button>
           </div>
         </div>

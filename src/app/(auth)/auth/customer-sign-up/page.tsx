@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { ArrowRight, AtSign, Eye, EyeOff, Lock, PackageCheck, ShoppingCart, User, UserCircle2} from 'lucide-react'
+import { ArrowRight, AtSign, Eye, EyeOff, Lock, PackageCheck, ShoppingCart, User, UserCircle2 } from 'lucide-react'
 import AuthLeftBanner from '@/components/shared/AuthLeftBanner'
 import { Button } from '@/components/ui/button'
 import { customerSignUpSchema } from '@/validation/auth.validation'
@@ -18,8 +18,8 @@ const roleOptions = [
     description: 'Sell products in bulk to resellers',
     note: 'Review terms first',
     icon: PackageCheck,
-    activeClass: 'border-[#A855F7] bg-[#F8F0FF]',
-    iconClass: 'bg-[#A855F7] text-white'
+    activeClass: 'border-[#A855F7]',
+    iconClass: 'bg-[#AD46FF] text-white'
   },
   {
     id: 'reseller',
@@ -27,8 +27,8 @@ const roleOptions = [
     description: 'Buy products and sell to customers',
     note: 'Review terms first',
     icon: UserCircle2,
-    activeClass: 'border-[#14B8A6] bg-[#EEFFFC]',
-    iconClass: 'bg-[#14B8A6] text-white'
+    activeClass: 'border-[#14B8A6]',
+    iconClass: 'bg-[#CBFBF1] text-[#00BBA7]'
   },
   {
     id: 'customer',
@@ -36,8 +36,8 @@ const roleOptions = [
     description: 'Shop products from resellers',
     note: '',
     icon: ShoppingCart,
-    activeClass: 'border-heading bg-[#FFF1E8]',
-    iconClass: 'bg-heading text-white'
+    activeClass: 'border-heading',
+    iconClass: 'bg-[#FFEDD4] text-[#FF6900]'
   }
 ] as const
 
@@ -49,7 +49,7 @@ const CustomerSignUpPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [selectedRole, setSelectedRole] = useState<CustomerSignUpValues['role']>('customer')
 
-  const { register, setValue, handleSubmit, formState: { errors, isSubmitting }} = useForm<CustomerSignUpValues>({
+  const { register, setValue, handleSubmit, formState: { errors, isSubmitting } } = useForm<CustomerSignUpValues>({
     resolver: zodResolver(customerSignUpSchema),
     defaultValues: {
       role: 'customer',
@@ -102,15 +102,12 @@ const CustomerSignUpPage = () => {
                           setSelectedRole(role.id)
                           setValue('role', role.id, { shouldValidate: true })
                         }}
-                        className={`relative rounded-xl border-2 px-3 py-5 text-center transition ${
-                          isActive ? role.activeClass : 'border-slate-200 bg-white hover:border-slate-300'
-                        }`}
-                      >
-                        {isActive && <span className="absolute inset-x-0 -top-2 mx-auto h-2 w-2/3 rounded-full bg-heading" />}
-                        <span
-                          className={`mx-auto inline-flex h-11 w-11 items-center justify-center rounded-xl ${
-                            isActive ? role.iconClass : 'bg-slate-100 text-slate-500'
+                        className={`relative rounded-xl border-2 px-3 py-5 text-center transition ${isActive ? role.activeClass : 'border-slate-200 bg-white hover:border-slate-300'
                           }`}
+                      >
+                        {isActive && <span className="absolute inset-x-0 -top-6 mx-auto h-2 w-full rounded-full bg-heading hidden md:block" />}
+                        <span
+                          className={`mx-auto inline-flex h-11 w-11 items-center justify-center rounded-xl ${role.iconClass}`}
                         >
                           <RoleIcon className="h-5 w-5" />
                         </span>
