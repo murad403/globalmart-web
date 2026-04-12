@@ -3,7 +3,7 @@ import Link from 'next/link'
 import product1 from '@/assets/home/product1.png'
 import product2 from '@/assets/home/product2.png'
 import product3 from '@/assets/home/product3.png'
-import ProductCard from '@/components/shared/ProductCard'
+import FeaturedProductCard from '@/components/shared/FeaturedProductCard'
 
 const FeaturedProducts = () => {
   const products = [
@@ -66,7 +66,7 @@ const FeaturedProducts = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {products.map((product) => (
-            <ProductCard
+            <FeaturedProductCard
               key={product.id}
               name={product.name}
               description={product.description}

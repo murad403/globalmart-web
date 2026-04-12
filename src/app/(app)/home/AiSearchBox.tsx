@@ -49,7 +49,7 @@ const AiSearchBox = () => {
 
     return (
         <div
-            className={`fixed top-24 md:top-28 left-0 right-0 z-40 transition-all duration-300 ease-in-out ${isVisible ? 'translate-y-0' : '-translate-y-[calc(100%+6rem)] md:-translate-y-[calc(100%+7.5rem)]'
+            className={`fixed top-22 md:top-27 left-0 right-0 z-40 transition-all duration-300 ease-in-out ${isVisible ? 'translate-y-0' : '-translate-y-[calc(100%+6rem)] md:-translate-y-[calc(100%+7.5rem)]'
                 }`}
         >
             <div className="w-full bg-white py-4 px-4">
