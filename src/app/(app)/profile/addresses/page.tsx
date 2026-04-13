@@ -1,173 +1,379 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ChevronLeft, CreditCard, MapPin, Plus, Truck } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { ChevronLeft, ChevronRight, Eye, Filter, MapPin, Search } from 'lucide-react'
-import { orderStatusOptions, orderTimeOptions, profileOrders, type OrderStatus } from '../orders-data'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { Button } from '@/components/ui/button'
+import BillingAddressTab from './BillingAddressTab'
+import ShippingAddressTab from './ShippingAddressTab'
+import { initialBillingAddresses, initialShippingAddresses, type AddressRecord, type AddressTabKey } from './addresses-data'
 
-const statusClasses: Record<OrderStatus, string> = {
-  Delivered: 'bg-emerald-100 text-emerald-700',
-  Shipped: 'bg-violet-100 text-violet-700',
-  Processing: 'bg-blue-100 text-blue-700',
-  Pending: 'bg-yellow-100 text-yellow-700',
-  Canceled: 'bg-red-100 text-red-700'
+const addressSchema = z.object({
+  fullName: z.string().min(2, 'Full name is required'),
+  streetAddress: z.string().min(5, 'Street address is required'),
+  state: z.string().min(2, 'State is required'),
+  cityTown: z.string().min(2, 'City / town is required'),
+  zipCode: z.string().min(3, 'ZIP / postal code is required'),
+  country: z.string().min(2, 'Country is required'),
+  phoneNumber: z.string().min(5, 'Phone number is required'),
+  setAsDefault: z.boolean().optional(),
+  sameAsShipping: z.boolean().optional()
+})
+
+type AddressFormValues = z.infer<typeof addressSchema>
+
+type FormMode = 'add' | 'edit' | null
+
+const emptyFormValues: AddressFormValues = {
+  fullName: '',
+  streetAddress: '',
+  state: '',
+  cityTown: '',
+  zipCode: '',
+  country: '',
+  phoneNumber: '',
+  setAsDefault: false,
+  sameAsShipping: false
 }
 
 const AddressesPage = () => {
-  const [query, setQuery] = useState('')
-  const [statusFilter, setStatusFilter] = useState<(typeof orderStatusOptions)[number]>('All Status')
-  const [timeFilter, setTimeFilter] = useState<(typeof orderTimeOptions)[number]>('All Time')
+  const [activeTab, setActiveTab] = useState<AddressTabKey>('shipping')
+  const [formMode, setFormMode] = useState<FormMode>(null)
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null)
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const [shippingAddresses, setShippingAddresses] = useState<AddressRecord[]>(initialShippingAddresses)
+  const [billingAddresses, setBillingAddresses] = useState<AddressRecord[]>(initialBillingAddresses)
+  const [selectedAddressIds, setSelectedAddressIds] = useState<Record<AddressTabKey, string | null>>({
+    shipping: initialShippingAddresses[0]?.id ?? null,
+    billing: initialBillingAddresses[0]?.id ?? null
+  })
 
-  const filteredOrders = useMemo(() => {
-    const now = new Date('2026-04-13')
+  const activeAddresses = activeTab === 'shipping' ? shippingAddresses : billingAddresses
+  const selectedAddressId = selectedAddressIds[activeTab]
 
-    return profileOrders.filter((order) => {
-      const text = `${order.id} ${order.products.map((item) => item.name).join(' ')}`.toLowerCase()
-      const queryMatch = text.includes(query.toLowerCase())
-      const statusMatch = statusFilter === 'All Status' || order.status === statusFilter
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<AddressFormValues>({
+    resolver: zodResolver(addressSchema),
+    defaultValues: emptyFormValues
+  })
 
-      if (timeFilter === 'All Time') {
-        return queryMatch && statusMatch
-      }
+  const activeTitle = activeTab === 'shipping' ? 'Shipping Addresses' : 'Billing Addresses'
+  const activeDescription = activeTab === 'shipping' ? 'Track your orders and manage delivery addresses.' : 'Update payment methods and review your billing history.'
 
-      const orderDate = new Date(order.date)
-      const diffDays = Math.floor((now.getTime() - orderDate.getTime()) / (1000 * 60 * 60 * 24))
+  const openAddForm = () => {
+    setFormMode('add')
+    setEditingAddressId(null)
+    setOpenMenuId(null)
+    reset(emptyFormValues)
+  }
 
-      if (timeFilter === 'Last 7 Days') {
-        return queryMatch && statusMatch && diffDays <= 7
-      }
-
-      if (timeFilter === 'Last 30 Days') {
-        return queryMatch && statusMatch && diffDays <= 30
-      }
-
-      return queryMatch && statusMatch && orderDate.getFullYear() === 2026
+  const openEditForm = (address: AddressRecord) => {
+    setFormMode('edit')
+    setEditingAddressId(address.id)
+    setOpenMenuId(null)
+    setActiveTab(address.tab)
+    reset({
+      fullName: address.recipientName,
+      streetAddress: address.line1,
+      state: 'California',
+      cityTown: 'Los Angeles',
+      zipCode: '90015',
+      country: 'United States',
+      phoneNumber: address.phone,
+      setAsDefault: address.defaultLabel === 'Default',
+      sameAsShipping: false
     })
-  }, [query, statusFilter, timeFilter])
+  }
+
+  const submitAddress = (values: AddressFormValues) => {
+    const nextAddress: AddressRecord = {
+      id: editingAddressId ?? `${activeTab}-${Date.now()}`,
+      title: values.setAsDefault ? 'Home' : 'Office',
+      defaultLabel: values.setAsDefault ? 'Default' : undefined,
+      recipientName: values.fullName,
+      email: activeTab === 'shipping' ? 'Marvinmckinney@mail.com' : 'billing@domain.com',
+      phone: values.phoneNumber,
+      line1: values.streetAddress,
+      line2: `${values.cityTown}, ${values.state}, ${values.zipCode}, ${values.country}`,
+      location: `${values.cityTown}, ${values.state}`,
+      tab: activeTab
+    }
+
+    if (activeTab === 'shipping') {
+      setShippingAddresses((prev) => {
+        if (editingAddressId) {
+          return prev.map((item) => (item.id === editingAddressId ? nextAddress : item))
+        }
+        return [nextAddress, ...prev]
+      })
+      setSelectedAddressIds((prev) => ({ ...prev, shipping: nextAddress.id }))
+    } else {
+      setBillingAddresses((prev) => {
+        if (editingAddressId) {
+          return prev.map((item) => (item.id === editingAddressId ? nextAddress : item))
+        }
+        return [nextAddress, ...prev]
+      })
+      setSelectedAddressIds((prev) => ({ ...prev, billing: nextAddress.id }))
+    }
+
+    setFormMode(null)
+    setEditingAddressId(null)
+    reset(emptyFormValues)
+  }
+
+  const handleDelete = (id: string) => {
+    if (activeTab === 'shipping') {
+      setShippingAddresses((prev) => {
+        const nextAddresses = prev.filter((item) => item.id !== id)
+        setSelectedAddressIds((current) => ({
+          ...current,
+          shipping: current.shipping === id ? nextAddresses[0]?.id ?? null : current.shipping
+        }))
+        return nextAddresses
+      })
+    } else {
+      setBillingAddresses((prev) => {
+        const nextAddresses = prev.filter((item) => item.id !== id)
+        setSelectedAddressIds((current) => ({
+          ...current,
+          billing: current.billing === id ? nextAddresses[0]?.id ?? null : current.billing
+        }))
+        return nextAddresses
+      })
+    }
+
+    setOpenMenuId(null)
+  }
+
+  const handleSelect = (id: string) => {
+    setSelectedAddressIds((prev) => ({ ...prev, [activeTab]: id }))
+  }
+
+  const toggleMenu = (id: string) => {
+    setOpenMenuId((current) => (current === id ? null : id))
+  }
+
+  const handleTabChange = (nextTab: AddressTabKey) => {
+    setActiveTab(nextTab)
+    setOpenMenuId(null)
+    setFormMode(null)
+    setEditingAddressId(null)
+    reset(emptyFormValues)
+  }
+
+  const showEmptyState = activeAddresses.length === 0 && !formMode
 
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6">
-      <h1 className="text-[38px] font-bold text-title">My Orders</h1>
-      <p className="mt-1 text-sm text-description">Track and manage all your orders in one place</p>
-
-      <div className="mt-5 rounded-xl border border-slate-200 bg-[#fcfcfd] p-3">
-        <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_130px_130px]">
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search by Order ID or Product Name..."
-              className="h-10 w-full rounded-md border border-slate-200 bg-white pl-9 pr-3 text-sm outline-none"
-            />
+    <div>
+      <div className="mb-6 grid gap-4 md:grid-cols-2">
+        <button
+          type="button"
+          onClick={() => handleTabChange('shipping')}
+          className={`rounded-2xl border p-4 text-left transition ${activeTab === 'shipping' ? 'border-[#ff6900] bg-white' : 'border-slate-200 bg-white'}`}
+        >
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#EAF1FF] text-main">
+              <Truck className="h-4 w-4" />
+            </div>
+            <div>
+              <h2 className="text-base font-semibold text-title">Shipping Address</h2>
+              <p className="text-xs text-description">Track your orders and manage delivery addresses.</p>
+            </div>
           </div>
+        </button>
 
-          <div className="relative">
-            <Filter className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-            <select
-              value={statusFilter}
-              onChange={(event) => setStatusFilter(event.target.value as (typeof orderStatusOptions)[number])}
-              className="h-10 w-full rounded-md border border-slate-200 bg-white pl-9 pr-3 text-sm outline-none"
-            >
-              {orderStatusOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+        <button
+          type="button"
+          onClick={() => handleTabChange('billing')}
+          className={`rounded-2xl border p-4 text-left transition ${activeTab === 'billing' ? 'border-[#ff6900] bg-white' : 'border-slate-200 bg-white'}`}
+        >
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#FFF2E8] text-[#ff6900]">
+              <CreditCard className="h-4 w-4" />
+            </div>
+            <div>
+              <h2 className="text-base font-semibold text-title">Billing Address</h2>
+              <p className="text-xs text-description">Update payment methods and review your billing history.</p>
+            </div>
           </div>
+        </button>
+      </div>
 
-          <select
-            value={timeFilter}
-            onChange={(event) => setTimeFilter(event.target.value as (typeof orderTimeOptions)[number])}
-            className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm outline-none"
-          >
-            {orderTimeOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-title">{activeTitle}</h1>
+          <p className="mt-1 text-sm text-description">{activeDescription}</p>
         </div>
-      </div>
-
-      <p className="mt-4 text-xs text-description">Showing {filteredOrders.length} of {profileOrders.length} orders</p>
-
-      <div className="mt-3 overflow-x-auto rounded-xl border border-slate-200">
-        <table className="min-w-250 w-full border-separate border-spacing-0 text-sm">
-          <thead className="bg-[#f8fafc] text-[11px] font-semibold uppercase tracking-wide text-description">
-            <tr>
-              <th className="px-3 py-2 text-left">Order ID</th>
-              <th className="px-3 py-2 text-left">Date</th>
-              <th className="px-3 py-2 text-left">Products</th>
-              <th className="px-3 py-2 text-left">Total</th>
-              <th className="px-3 py-2 text-left">Status</th>
-              <th className="px-3 py-2 text-left">Shipping</th>
-              <th className="px-3 py-2 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredOrders.map((order) => {
-              const first = order.products[0]
-              const extraCount = order.products.length - 1
-
-              return (
-                <tr key={order.id} className="border-t border-slate-200 align-top">
-                  <td className="px-3 py-3 font-semibold text-[#ff6900]">#{order.id}</td>
-                  <td className="px-3 py-3 text-description">{order.date}</td>
-                  <td className="px-3 py-3">
-                    <div className="flex items-start gap-2">
-                      <div className="relative h-9 w-9 overflow-hidden rounded border border-slate-200">
-                        <Image src={first.image} alt={first.name} fill className="object-cover" sizes="36px" />
-                      </div>
-                      <div>
-                        <p className="line-clamp-1 text-xs font-medium text-title">{first.name}</p>
-                        <p className="mt-0.5 text-[11px] text-description">Qty: {first.qty} • {first.size} • {first.color}</p>
-                        {extraCount > 0 && <p className="text-[10px] font-semibold text-[#ff6900]">+ {extraCount} more item</p>}
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-3 py-3 font-semibold text-title">${order.total.toFixed(2)}</td>
-                  <td className="px-3 py-3">
-                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${statusClasses[order.status]}`}>
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="px-3 py-3 text-description">
-                    <div className="flex items-center gap-1 text-xs">
-                      <MapPin className="h-3.5 w-3.5" />
-                      {order.shipping}
-                    </div>
-                  </td>
-                  <td className="px-3 py-3">
-                    <Link
-                      href={`/profile/orders/${order.id}`}
-                      className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-title hover:bg-slate-50"
-                    >
-                      <Eye className="h-3.5 w-3.5" />
-                      View
-                    </Link>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="mt-4 flex items-center justify-center gap-2 text-xs text-description">
-        <button type="button" className="inline-flex items-center gap-1 rounded-md px-2 py-1 hover:bg-slate-100">
-          <ChevronLeft className="h-3.5 w-3.5" />
-          Previous
-        </button>
-        <span className="rounded bg-slate-100 px-2 py-1 text-title">1</span>
-        <span className="rounded px-2 py-1">2</span>
-        <button type="button" className="inline-flex items-center gap-1 rounded-md px-2 py-1 hover:bg-slate-100">
-          Next
-          <ChevronRight className="h-3.5 w-3.5" />
+        <button
+          type="button"
+          onClick={openAddForm}
+          className="inline-flex items-center gap-2 text-sm font-semibold text-[#ff6900]"
+        >
+          <Plus className="h-4 w-4" />
+          Add address
         </button>
       </div>
+
+      {formMode && (
+        <form onSubmit={handleSubmit(submitAddress)} className="mb-6 rounded-3xl border border-slate-200 bg-white p-4 sm:p-6">
+          <div className="mb-5 flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setFormMode(null)
+                setEditingAddressId(null)
+                reset(emptyFormValues)
+              }}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white hover:bg-slate-50"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <h2 className="text-2xl font-semibold text-title">{formMode === 'edit' ? 'Edit Address' : 'Add New Address'}</h2>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-2 block text-xs font-semibold text-title">Full Name</label>
+              <input
+                {...register('fullName')}
+                placeholder="Enter recipient full name"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm outline-none"
+              />
+              {errors.fullName && <p className="mt-1 text-xs text-red-500">{errors.fullName.message}</p>}
+            </div>
+            <div>
+              <label className="mb-2 block text-xs font-semibold text-title">Street Address</label>
+              <input
+                {...register('streetAddress')}
+                placeholder="House number, street name"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm outline-none"
+              />
+              {errors.streetAddress && <p className="mt-1 text-xs text-red-500">{errors.streetAddress.message}</p>}
+            </div>
+            <div>
+              <label className="mb-2 block text-xs font-semibold text-title">State</label>
+              <input
+                {...register('state')}
+                placeholder="Enter state/province/region"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm outline-none"
+              />
+              {errors.state && <p className="mt-1 text-xs text-red-500">{errors.state.message}</p>}
+            </div>
+            <div>
+              <label className="mb-2 block text-xs font-semibold text-title">City / Town</label>
+              <input
+                {...register('cityTown')}
+                placeholder="Enter city or town"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm outline-none"
+              />
+              {errors.cityTown && <p className="mt-1 text-xs text-red-500">{errors.cityTown.message}</p>}
+            </div>
+            <div>
+              <label className="mb-2 block text-xs font-semibold text-title">Country</label>
+              <input
+                {...register('country')}
+                placeholder="Select country"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm outline-none"
+              />
+              {errors.country && <p className="mt-1 text-xs text-red-500">{errors.country.message}</p>}
+            </div>
+            <div>
+              <label className="mb-2 block text-xs font-semibold text-title">Phone Number</label>
+              <input
+                {...register('phoneNumber')}
+                placeholder="Enter contact number"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm outline-none"
+              />
+              {errors.phoneNumber && <p className="mt-1 text-xs text-red-500">{errors.phoneNumber.message}</p>}
+            </div>
+            <div className="sm:col-span-2">
+              <label className="mb-2 block text-xs font-semibold text-title">ZIP / Postal Code</label>
+              <input
+                {...register('zipCode')}
+                placeholder="Enter postal code"
+                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm outline-none"
+              />
+              {errors.zipCode && <p className="mt-1 text-xs text-red-500">{errors.zipCode.message}</p>}
+            </div>
+          </div>
+
+          {activeTab === 'shipping' && (
+            <div className="mt-4 space-y-3 text-sm text-description">
+              <label className="flex items-start gap-2">
+                <input type="checkbox" {...register('setAsDefault')} className="mt-1 h-4 w-4 accent-[#ff6900]" />
+                <span>
+                  <span className="block font-medium text-title">Set as default shipping address</span>
+                  <span className="block text-xs">Designate this as your primary delivery location for all your future orders.</span>
+                </span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input type="checkbox" {...register('sameAsShipping')} className="h-4 w-4 accent-[#ff6900]" />
+                <span>Same as Shipping Address</span>
+              </label>
+            </div>
+          )}
+
+          <div className="mt-6 flex justify-center">
+            <Button type="submit" className="min-w-40 bg-[#ff6900] hover:bg-[#eb6103]">
+              {formMode === 'edit' ? 'Save Changes' : 'Save Address'}
+            </Button>
+          </div>
+        </form>
+      )}
+
+      {showEmptyState ? (
+        <div className="rounded-3xl border border-slate-200 bg-white px-6 py-12 text-center">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#FFF1E8] text-[#ff6900]">
+            <MapPin className="h-8 w-8" />
+          </div>
+          <h2 className="mt-6 text-2xl font-semibold text-title">You don&apos;t have any added address</h2>
+          <p className="mt-2 text-base text-description">Add your address, start shopping!</p>
+          <button
+            type="button"
+            onClick={openAddForm}
+            className="mt-5 inline-flex h-10 items-center gap-2 rounded-md bg-[#ff6900] px-4 text-sm font-semibold text-white hover:bg-[#eb6103]"
+          >
+            + Add Address
+          </button>
+        </div>
+      ) : (
+        <div>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-semibold text-title">{activeTab === 'shipping' ? 'Shipping Addresses' : 'Billing Addresses'}</h2>
+          </div>
+
+          {activeTab === 'shipping' ? (
+            <ShippingAddressTab
+              addresses={shippingAddresses}
+              selectedId={selectedAddressId}
+              openMenuId={openMenuId}
+              onSelect={handleSelect}
+              onEdit={openEditForm}
+              onDelete={handleDelete}
+              onToggleMenu={toggleMenu}
+              onAdd={openAddForm}
+            />
+          ) : (
+            <BillingAddressTab
+              addresses={billingAddresses}
+              selectedId={selectedAddressId}
+              openMenuId={openMenuId}
+              onSelect={handleSelect}
+              onEdit={openEditForm}
+              onDelete={handleDelete}
+              onToggleMenu={toggleMenu}
+              onAdd={openAddForm}
+            />
+          )}
+        </div>
+      )}
     </div>
   )
 }

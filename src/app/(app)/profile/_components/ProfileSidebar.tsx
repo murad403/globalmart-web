@@ -7,9 +7,9 @@ const navItems = [
     { label: 'Profile', href: '/profile', icon: User },
     { label: 'Orders', href: '/profile/orders', icon: ShoppingBag },
     { label: 'Addresses', href: '/profile/addresses', icon: MapPinned },
-    { label: 'Transactions', href: '/profile/addresses', icon: CreditCard },
-    { label: 'Notifications', href: '/profile/addresses', icon: Bell },
-    { label: 'Security', href: '/profile/addresses', icon: Lock }
+    { label: 'Transactions', href: '/profile/transactions', icon: CreditCard },
+    { label: 'Notifications', href: '/profile/notifications', icon: Bell },
+    { label: 'Security', href: '/profile/security', icon: Lock }
 ]
 
 const ProfileSidebar = () => {
