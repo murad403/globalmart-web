@@ -1,6 +1,6 @@
 'use client'
-import React, { useState } from 'react'
-import { ChevronRight, Upload, FileText, Briefcase, CreditCard, Store, User, ChevronLeft } from 'lucide-react'
+import React, { useEffect, useRef, useState } from 'react'
+import { ChevronRight, Upload, FileText, Briefcase, CreditCard, Store, User, ChevronLeft, CalendarDays, Calendar, Zap } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -9,6 +9,7 @@ import {
 } from '@/validation/auth.validation'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 type DocumentType = 'identityDocument' | 'passport' | 'businessRegistration' | 'taxCertificate'
 
@@ -21,12 +22,16 @@ const ResellerSignUpPage = () => {
   const [documentFiles, setDocumentFiles] = useState<Partial<Record<DocumentType, File | null>>>({})
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [bannerFile, setBannerFile] = useState<File | null>(null)
+  const [logoPreviewUrl, setLogoPreviewUrl] = useState<string | null>(null)
+  const [bannerPreviewUrl, setBannerPreviewUrl] = useState<string | null>(null)
+  const logoPreviewRef = useRef<string | null>(null)
+  const bannerPreviewRef = useRef<string | null>(null)
 
   const stepItems = [
-    { id: 1, title: 'Basic Info', subtitle: 'Personal details' },
-    { id: 2, title: 'Business', subtitle: 'Business information' },
-    { id: 3, title: 'Payment', subtitle: 'Payment setup' },
-    { id: 4, title: 'Store Setup', subtitle: 'Store configuration' }
+    { id: 1, title: 'Basic Info', subtitle: 'Personal details', icon: User },
+    { id: 2, title: 'Business', subtitle: 'Business information', icon: Briefcase },
+    { id: 3, title: 'Payment', subtitle: 'Payment setup', icon: CreditCard },
+    { id: 4, title: 'Store Setup', subtitle: 'Store configuration', icon: Store }
   ]
 
   const documentTabs: Array<{ id: DocumentType; label: string }> = [
@@ -34,6 +39,30 @@ const ResellerSignUpPage = () => {
     { id: 'passport', label: 'Passport' },
     { id: 'businessRegistration', label: 'Business Registration' },
     { id: 'taxCertificate', label: 'Tax Certificate' }
+  ]
+
+  const paymentOptions = [
+    {
+      id: 'weekly' as const,
+      label: 'Weekly',
+      description: 'Receive payments every week',
+      icon: CalendarDays,
+      iconClass: 'text-heading'
+    },
+    {
+      id: 'monthly' as const,
+      label: 'Monthly',
+      description: 'Receive payments every month',
+      icon: Calendar,
+      iconClass: 'text-heading'
+    },
+    {
+      id: 'ondemand' as const,
+      label: 'On-demand',
+      description: 'Request payouts manually',
+      icon: Zap,
+      iconClass: 'text-heading'
+    }
   ]
 
   const { register, setValue, handleSubmit, formState: { errors, isSubmitting }, trigger} = useForm<ResellerCompleteSignUpValues>({
@@ -81,19 +110,52 @@ const ResellerSignUpPage = () => {
 
   const handleLogoUpload = (files: FileList | null) => {
     const file = files?.[0] ?? null
+
+    if (logoPreviewRef.current) {
+      URL.revokeObjectURL(logoPreviewRef.current)
+      logoPreviewRef.current = null
+    }
+
     setLogoFile(file)
     if (file) {
+      const previewUrl = URL.createObjectURL(file)
+      logoPreviewRef.current = previewUrl
+      setLogoPreviewUrl(previewUrl)
       setValue('storeLogo', file.name)
+    } else {
+      setLogoPreviewUrl(null)
     }
   }
 
   const handleBannerUpload = (files: FileList | null) => {
     const file = files?.[0] ?? null
+
+    if (bannerPreviewRef.current) {
+      URL.revokeObjectURL(bannerPreviewRef.current)
+      bannerPreviewRef.current = null
+    }
+
     setBannerFile(file)
     if (file) {
+      const previewUrl = URL.createObjectURL(file)
+      bannerPreviewRef.current = previewUrl
+      setBannerPreviewUrl(previewUrl)
       setValue('storeBanner', file.name)
+    } else {
+      setBannerPreviewUrl(null)
     }
   }
+
+  useEffect(() => {
+    return () => {
+      if (logoPreviewRef.current) {
+        URL.revokeObjectURL(logoPreviewRef.current)
+      }
+      if (bannerPreviewRef.current) {
+        URL.revokeObjectURL(bannerPreviewRef.current)
+      }
+    }
+  }, [])
 
   const onSubmit = async (values: ResellerCompleteSignUpValues) => {
     console.log('Form submitted:', values)
@@ -143,6 +205,9 @@ const ResellerSignUpPage = () => {
               <React.Fragment key={step.id}>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-col items-center">
+                    {(() => {
+                      const StepIcon = step.icon
+                      return (
                     <div
                       className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold transition ${
                         step.id < currentStep
@@ -152,10 +217,12 @@ const ResellerSignUpPage = () => {
                             : 'bg-slate-200 text-slate-500'
                       }`}
                     >
-                      {step.id < currentStep ? '✓' : step.id}
+                      {step.id < currentStep ? '✓' : <StepIcon className="h-4 w-4" />}
                     </div>
+                      )
+                    })()}
                     <p className="mt-3 text-center text-sm font-semibold leading-none text-title">{step.title}</p>
-                    <p className="mt-1 text-center text-xs leading-none text-description">{step.subtitle}</p>
+                    <p className="mt-1 text-center text-xs leading-none text-description whitespace-nowrap">{step.subtitle}</p>
                   </div>
                 </div>
                 {index < stepItems.length - 1 && (
@@ -418,30 +485,27 @@ const ResellerSignUpPage = () => {
                 <div>
                   <p className="mb-3 text-base font-semibold text-description">Payment Preferences</p>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    {(['weekly', 'monthly', 'ondemand'] as const).map((pref) => (
+                    {paymentOptions.map((option) => {
+                      const OptionIcon = option.icon
+
+                      return (
                       <button
-                        key={pref}
+                        key={option.id}
                         type="button"
                         onClick={() => {
-                          setPaymentPreference(pref)
-                          setValue('paymentPreference', pref, { shouldValidate: true }) // ✅ fix 4
+                          setPaymentPreference(option.id)
+                          setValue('paymentPreference', option.id, { shouldValidate: true })
                         }}
                         className={`rounded-lg border-2 px-4 py-4 text-center transition ${
-                          paymentPreference === pref ? 'border-heading bg-heading/10' : 'border-slate-200 hover:border-heading'
+                          paymentPreference === option.id ? 'border-heading bg-heading/10' : 'border-slate-200 hover:border-heading'
                         }`}
                       >
-                        <p className="font-bold text-title capitalize">
-                          {pref === 'weekly' && 'Weekly'}
-                          {pref === 'monthly' && 'Monthly'}
-                          {pref === 'ondemand' && 'On-demand'}
-                        </p>
-                        <p className="text-sm text-description">
-                          {pref === 'weekly' && 'Receive payments every week'}
-                          {pref === 'monthly' && 'Receive payments every month'}
-                          {pref === 'ondemand' && 'Request payouts manually'}
-                        </p>
+                        <OptionIcon className={`mx-auto mb-2 h-7 w-7 ${option.iconClass}`} />
+                        <p className="font-bold text-title">{option.label}</p>
+                        <p className="text-sm text-description">{option.description}</p>
                       </button>
-                    ))}
+                      )
+                    })}
                   </div>
                   {/* ✅ hidden input সরিয়ে দেওয়া হয়েছে */}
                   {errors.paymentPreference && <p className="mt-1 text-sm text-red-500">{errors.paymentPreference.message}</p>}
@@ -501,6 +565,16 @@ const ResellerSignUpPage = () => {
                       >
                         Choose File
                       </label>
+                      {logoPreviewUrl && (
+                        <Image
+                          src={logoPreviewUrl}
+                          alt="Store logo preview"
+                          width={80}
+                          height={80}
+                          unoptimized
+                          className="mx-auto mt-3 h-20 w-20 rounded-md border border-slate-200 object-cover"
+                        />
+                      )}
                       {logoFile && (
                         <p className="mt-2 text-xs text-description">
                           <span className="font-medium text-title">{logoFile.name}</span>
@@ -526,6 +600,16 @@ const ResellerSignUpPage = () => {
                       >
                         Choose File
                       </label>
+                      {bannerPreviewUrl && (
+                        <Image
+                          src={bannerPreviewUrl}
+                          alt="Store banner preview"
+                          width={320}
+                          height={80}
+                          unoptimized
+                          className="mx-auto mt-3 h-20 w-full max-w-xs rounded-md border border-slate-200 object-cover"
+                        />
+                      )}
                       {bannerFile && (
                         <p className="mt-2 text-xs text-description">
                           <span className="font-medium text-title">{bannerFile.name}</span>

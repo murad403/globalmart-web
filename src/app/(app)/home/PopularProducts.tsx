@@ -8,7 +8,7 @@ import product1 from '@/assets/home/product1.png'
 import product2 from '@/assets/home/product2.png'
 import product3 from '@/assets/home/product3.png'
 import product4 from '@/assets/home/product1.png'
-import { Button } from '@/components/ui/button'
+import ProductCard from '@/components/shared/ProductCard'
 
 type PopularProduct = {
     title: string
@@ -118,66 +118,13 @@ const PopularProducts = () => {
                     className="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth pb-2"
                 >
                     {products.map((product, index) => (
-                        <article
-                            key={`${product.title}-${index}`}
-                            className="group min-w-[85%] sm:min-w-[48%] lg:min-w-[24%] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 hover:-translate-y-0.5"
-                        >
-                            <div className="relative">
-                                <div className="relative h-56 w-full overflow-hidden bg-slate-100 sm:h-60">
-                                    <Image
-                                        src={product.image}
-                                        alt={product.title}
-                                        fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                        sizes="(max-width: 640px) 85vw, (max-width: 1024px) 48vw, 24vw"
-                                    />
-                                </div>
-
-                                <span className="absolute left-2 top-2 rounded-md bg-[#E11D48] px-2 py-1 text-[11px] font-medium text-white">
-                                    {product.badge}
-                                </span>
-
-                                <button
-                                    type="button"
-                                    aria-label="Add to wishlist"
-                                    className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-white/90 text-[#E11D48] shadow-sm transition hover:bg-white"
-                                >
-                                    <Heart className="size-4 fill-current" />
-                                </button>
-                            </div>
-
-                            <div className="flex h-full flex-col p-3 md:p-4">
-                                <h3 className="line-clamp-2 text-[15px] font-medium leading-6 text-title md:text-base">
-                                    {product.title}
-                                </h3>
-
-                                <p className="mt-1 line-clamp-2 text-sm leading-6 text-description">
-                                    {product.description}
-                                </p>
-
-                                <div className="mt-3 flex items-center gap-1">
-                                    <div className="flex items-center gap-0.5 text-[#F59E0B]">
-                                        {Array.from({ length: 5 }, (_, starIndex) => (
-                                            <Star key={starIndex} className="size-4 fill-current" />
-                                        ))}
-                                    </div>
-                                    <span className="ml-1 text-sm font-semibold text-title">4.7</span>
-                                    <span className="text-sm text-description">(21,671 Ratings)</span>
-                                </div>
-
-                                <Button
-                                className='mt-4'
-                                    type="button"
-                                >
-                                    <ShoppingCart className="size-4" />
-                                    Add to Cart
-                                </Button>
-                            </div>
-                        </article>
+                        <ProductCard key={index} product={product} />
                     ))}
                 </div>
 
-                <div className="mt-6 flex items-center justify-center gap-3 md:mt-8 md:justify-end">
+
+
+                <div className="mt-6 flex items-center max-w-lg justify-between mx-auto gap-3 md:mt-8">
                     <button
                         type="button"
                         onClick={() => handleArrowClick('prev')}

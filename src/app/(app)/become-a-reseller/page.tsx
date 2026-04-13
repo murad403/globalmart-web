@@ -8,12 +8,12 @@ import WhyChooseOurPlatform from './WhyChooseOurPlatform'
 
 const page = () => {
     return (
-        <div className="w-full space-y-8">
+        <div className="w-full space-y-12 md:space-y-18">
             <ReSellerBanner />
             <div className='bg-[#F9FAFB]'>
                 <WhyChooseOurPlatform />
 
-                <div className='md:px-10 md:pb-10'>
+                <div className='xl:px-10 px-4 md:pb-14'>
                     <ReSellerGuide />
                 </div>
             </div>

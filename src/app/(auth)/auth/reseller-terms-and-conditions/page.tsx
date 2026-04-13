@@ -5,6 +5,30 @@ import { CircleCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
+const resellerPolicies = [
+  {
+    id: 1,
+    title: "Product Availability",
+    description: "Resellers can sell only products available on our platform (from approved wholesalers)."
+  },
+  {
+    id: 2,
+    title: "Order Fulfillment Process",
+    description: "After receiving an order, the reseller must first purchase the product from the wholesaler through the platform. Only after purchasing the product will the reseller be able to withdraw earnings from the platform."
+  },
+  {
+    id: 3,
+    title: "Products Already in Stock",
+    description: "If the reseller already has the product in stock, they may proceed to ship it and withdraw earnings after verification."
+  },
+  {
+    id: 4,
+    title: "Platform Benefits",
+    description: "These policies are designed for the benefit and protection of all users, ensuring that resellers do not accept orders and then disappear without fulfillment, wholesalers are paid before supply, and buyers receive their products reliably."
+  }
+];
+
+
 const ResellerTermsAndConditionsPage = () => {
   const [agreed, setAgreed] = useState(false)
 
@@ -19,43 +43,20 @@ const ResellerTermsAndConditionsPage = () => {
         </div>
 
         <div className="space-y-6 rounded-xl border border-slate-200 p-8 shadow-sm">
-          <div className="flex gap-4">
-            <CircleCheck className="size-5 text-main" />
-            <div>
-              <h3 className="text-lg font-bold text-title">1. Product Availability</h3>
-              <p className="mt-2 text-description">Resellers can sell only products available on our platform (from approved wholesalers).</p>
-            </div>
-          </div>
+          
 
-          <div className="flex gap-4">
-            <CircleCheck className="size-5 text-main" />
-            <div>
-              <h3 className="text-lg font-bold text-title">2. Order Fulfillment Process</h3>
-              <p className="mt-2 text-description">
-                After receiving an order, the reseller must first purchase the product from the wholesaler through the platform. Only after purchasing the product will the reseller be able to withdraw earnings from the platform.
-              </p>
-            </div>
-          </div>
+          {
+            resellerPolicies.map((policy) => (
+              <div key={policy.id} className="flex gap-4">
+                <CircleCheck className="size-5 text-green-500 shrink-0 mt-1" />
+                <div>
+                  <h3 className="text-lg font-semibold text-title">{policy.title}</h3>
+                  <p className="text-description">{policy.description}</p>
+                </div>
+              </div>
+            ))
 
-          <div className="flex gap-4">
-            <CircleCheck className="size-5 text-main" />
-            <div>
-              <h3 className="text-lg font-bold text-title">3. Products Already in Stock</h3>
-              <p className="mt-2 text-description">
-                If the reseller already has the product in stock, they may proceed to ship it and withdraw earnings after verification.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-4">
-            <CircleCheck className="size-5 text-main" />
-            <div>
-              <h3 className="text-lg font-bold text-title">4. Platform Benefits</h3>
-              <p className="mt-2 text-description">
-                These policies are designed for the benefit and protection of all users, ensuring that resellers do not accept orders and then disappear without fulfillment, wholesalers are paid before supply, and buyers receive their products reliably.
-              </p>
-            </div>
-          </div>
+          }
 
           <div className="border-t border-slate-200 pt-6">
             <label className="flex cursor-pointer items-center gap-3">
@@ -66,7 +67,7 @@ const ResellerTermsAndConditionsPage = () => {
                 className="size-4 rounded border-slate-300"
               />
               <span className="text-base font-medium text-title">
-                I have read and agree to the above terms and conditions
+                I have read and agree to the above <span className='text-heading'>terms and conditions</span>
               </span>
             </label>
           </div>

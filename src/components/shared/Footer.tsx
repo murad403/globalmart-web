@@ -8,7 +8,7 @@ import { LiaLinkedin } from 'react-icons/lia'
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-title text-white py-12 md:py-16 px-4">
+    <footer className="w-full bg-title text-white py-12 md:py-16 px-4 mt-12 md:mt-18">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand Column */}
