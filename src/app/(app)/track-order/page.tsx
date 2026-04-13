@@ -1,5 +1,4 @@
 'use client'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRight, ChevronLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -31,23 +30,18 @@ const TrackOrderPage = () => {
   }
 
   return (
-    <section className="w-full py-8 md:py-10">
+    <section className="w-full py-8 md:py-10 min-h-screen">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-6xl">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="inline-flex items-center gap-3 text-title cursor-pointer"
-          >
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50">
+        <div className="">
+
+          <div className="text-4xl font-bold text-title flex items-center gap-3">
+            <button onClick={() => router.push("/")} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50 cursor-pointer">
               <ChevronLeft className="h-5 w-5" />
-            </span>
-            <span className="text-xl font-semibold">Back</span>
-          </button>
+            </button>
+            <h1>Track Order</h1>
+          </div>
 
-          <h1 className="mt-6 text-4xl font-bold text-title">Track Order</h1>
-
-          <div className="mt-8 rounded-xl border border-slate-200 bg-white p-5 sm:p-8">
+          <div className="mt-5">
             <p className="max-w-4xl text-2xl text-description">
               To track your order please enter your order ID in the input field below and press the
               &quot;Track Order&quot; button. This was given to you on your receipt and in the confirmation email you should have received.
@@ -64,7 +58,7 @@ const TrackOrderPage = () => {
                     type="text"
                     placeholder="ID..."
                     {...register('orderId')}
-                    className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-main"
+                    className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-heading"
                   />
                   {errors.orderId && <p className="mt-1 text-xs text-red-500">{errors.orderId.message}</p>}
                 </div>
@@ -77,7 +71,7 @@ const TrackOrderPage = () => {
                     type="email"
                     placeholder="Email address"
                     {...register('billingEmail')}
-                    className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-main"
+                    className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-heading"
                   />
                   {errors.billingEmail && <p className="mt-1 text-xs text-red-500">{errors.billingEmail.message}</p>}
                 </div>

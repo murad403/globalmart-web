@@ -1,5 +1,4 @@
 'use client'
-
 import React from 'react'
 import { Box, CheckCheck, ChevronLeft, ClipboardCheck, Handshake, MapPin, Package, ShieldCheck, Truck, UserRound } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -43,19 +42,13 @@ const TrackOrderDetailPage = ({ params }: TrackOrderDetailPageProps) => {
   return (
     <section className="w-full py-8 md:py-10">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-6xl">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="inline-flex items-center gap-3 text-title cursor-pointer"
-          >
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50">
+        <div className="">
+          <div className="text-4xl font-bold text-title flex items-center gap-3">
+            <button onClick={() => router.push("/track-order")} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50 cursor-pointer">
               <ChevronLeft className="h-5 w-5" />
-            </span>
-            <span className="text-xl font-semibold">Back</span>
-          </button>
-
-          <h1 className="mt-6 text-4xl font-bold text-title">Order Details</h1>
+            </button>
+            <h1>Order Details</h1>
+          </div>
           <p className="mt-2 text-lg text-description">Order ID: <span className="font-semibold text-title">#{orderId}</span></p>
 
           <div className="mt-8 rounded-xl border border-slate-200 bg-white p-4 sm:p-6">
@@ -65,17 +58,17 @@ const TrackOrderDetailPage = ({ params }: TrackOrderDetailPageProps) => {
                   <p className="font-semibold text-title">Order ID: #{orderId}</p>
                   <p className="text-sm text-description">Email: {orderData.email}</p>
                 </div>
-                <p className="text-3xl font-bold text-main">{orderData.currency} {orderData.totalPrice.toFixed(2)}</p>
+                <p className="text-3xl font-bold text-heading">{orderData.currency} {orderData.totalPrice.toFixed(2)}</p>
               </div>
               <p className="text-description text-sm">{orderData.productCount} Products • Order Placed in {orderData.placedDate}</p>
             </div>
 
             <p className="mt-5 text-sm text-description">Order expected arrival {orderData.expectedArrival}</p>
 
-            <div className="mt-4 rounded-lg border border-slate-200 p-4">
+            <div className="mt-4 p-4">
               <div className="relative mb-6 mt-2 h-1.5 rounded-full bg-[#dbeafe]">
-                <div 
-                  className="absolute left-0 top-0 h-1.5 rounded-full bg-main transition-all duration-300"
+                <div
+                  className="absolute left-0 top-0 h-1.5 rounded-full bg-heading transition-all duration-300"
                   style={{ width: `${orderData.completionPercentage}%` }}
                 />
               </div>
@@ -88,9 +81,8 @@ const TrackOrderDetailPage = ({ params }: TrackOrderDetailPageProps) => {
                   return (
                     <div key={step.id} className="flex flex-col items-center">
                       <span
-                        className={`inline-flex h-9 w-9 items-center justify-center rounded-full border ${
-                          isComplete ? 'border-main bg-[#EEF4FF] text-main' : 'border-slate-300 text-slate-400'
-                        }`}
+                        className={`inline-flex h-9 w-9 items-center justify-center rounded-full border ${isComplete ? 'border-heading bg-[#EEF4FF] text-heading' : 'border-slate-300 text-slate-400'
+                          }`}
                       >
                         <Icon className="h-4 w-4" />
                       </span>
@@ -123,9 +115,9 @@ const TrackOrderDetailPage = ({ params }: TrackOrderDetailPageProps) => {
             </div>
 
             <div className="mt-6 border-t border-slate-200 pt-5">
-              <Button 
+              <Button
                 onClick={() => router.push('/track-order')}
-                
+
               >
                 Track Another Order
               </Button>

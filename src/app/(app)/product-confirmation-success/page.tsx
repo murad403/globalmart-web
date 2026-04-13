@@ -12,43 +12,35 @@ const ProductConfirmationSuccessPage = () => {
   return (
     <section className="w-full py-8 md:py-10">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-6xl">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="inline-flex items-center gap-3 text-title cursor-pointer"
-          >
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50">
-              <ChevronLeft className="h-5 w-5" />
-            </span>
-            <span className="text-xl font-semibold">Back</span>
-          </button>
+        <div>
+
 
           <h1 className="mt-6 text-4xl font-bold text-title">Product Confirmation</h1>
-          <p className="mt-2 text-2xl text-description">Let&apos;s create your account</p>
 
           <div className="mt-8 grid items-center gap-8 bg-white p-6 md:grid-cols-2">
-            <div className="relative mx-auto h-64 w-full max-w-md overflow-hidden rounded-2xl bg-slate-50 md:h-72">
+            <div className="r">
               <Image
                 src={confirm}
                 alt="Order confirmation"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 460px"
+                width={779}
+                height={532}
+                className=""
               />
             </div>
 
             <div className="text-center md:text-left">
-              <span className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-full border-4 border-green-500 bg-green-50 text-green-600 md:mx-0">
-                <Check className="h-8 w-8" />
-              </span>
+              <div className='flex flex-col justify-center items-center'>
+                <span className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-full border-4 border-green-500 bg-green-50 text-green-600 md:mx-0">
+                  <Check className="h-8 w-8" />
+                </span>
 
-              <h2 className="mt-5 text-4xl font-bold text-title">Your order is successfully placed</h2>
-              <p className="mt-3 text-lg text-description">
-                Thank you for your order. Your order has been confirmed and will be delivered soon.
-              </p>
+                <h2 className="mt-5 text-4xl font-bold text-title">Your order is successfully place</h2>
+                <p className="mt-3 text-lg text-description text-center">
+                  Pellentesque sed lectus nec tortor tristique accumsan quis dictum risus. Donec volutpat mollis nulla non facilisis.
+                </p>
+              </div>
 
-              <div className="mt-6 flex flex-wrap justify-center gap-3 md:justify-start">
+              <div className="mt-6 flex flex-wrap justify-center gap-4">
                 <button
                   type="button"
                   onClick={() => router.push('/profile')}
@@ -59,8 +51,8 @@ const ProductConfirmationSuccessPage = () => {
                 </button>
                 <Button
                   type="button"
-                  onClick={() => router.push('/track-order')}
-                  
+                  onClick={() => router.push('/profile/orders')}
+
                 >
                   VIEW ORDER
                   <ArrowRight className="h-4 w-4" />
