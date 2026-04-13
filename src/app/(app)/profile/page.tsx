@@ -46,7 +46,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div>
+    <div className='min-h-screen'>
       <h1 className="text-2xl md:text-3xl font-bold text-title">My profile</h1>
 
       <div className="mt-4 rounded-3xl border border-slate-200 bg-white p-4 sm:p-6">
@@ -75,7 +75,7 @@ const ProfilePage = () => {
             className="flex gap-2 text-sm font-semibold text-heading cursor-pointer"
           >
             <Pencil className="h-3.5 w-3.5 mt-1" />
-           <span>Edit</span>
+            <span>Edit</span>
           </button>
         </div>
       </div>

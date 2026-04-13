@@ -63,7 +63,7 @@ const OrdersPage = () => {
     const goToNext = () => setCurrentPage(Math.min(totalPages, safeCurrentPage + 1))
 
     return (
-        <div>
+        <div className='min-h-screen'>
             <h1 className="text-2xl md:text-3xl font-bold text-title">My Orders</h1>
             <p className='text-sm text-description'>Track and manage all your orders in one place</p>
 

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight, CircleAlert, Download, LocateFixed, MapPin, Package, ReceiptText, RefreshCcw, RotateCcw, Truck } from 'lucide-react'
 import { notFound, useParams, useRouter } from 'next/navigation'
 import { profileOrders } from '../../orders-data'
+import CancelOrderModal from './CancelOrderModal'
 
 const badgeClass: Record<string, string> = {
     Delivered: 'bg-emerald-100 text-emerald-700',
@@ -88,6 +89,7 @@ const OrderDetailsPage = () => {
     const order = profileOrders.find((item) => item.id === id)
     const router = useRouter();
     const [toast, setToast] = useState<ToastState | null>(null)
+    const [cancelModalOpen, setCancelModalOpen] = useState(false)
 
     const showToast = (message: string, variant: ToastVariant = 'success') => {
         setToast({ message, variant })
@@ -301,7 +303,11 @@ const OrderDetailsPage = () => {
 
                     {order.status !== 'Canceled' && (
                         <div className="grid gap-3 sm:grid-cols-2">
-                            <button type="button" className="h-11 rounded-xl bg-[#db524d] text-sm font-semibold text-white hover:bg-[#c94742] cursor-pointer">
+                            <button
+                                type="button"
+                                onClick={() => setCancelModalOpen(true)}
+                                className="h-11 rounded-xl bg-[#db524d] text-sm font-semibold text-white hover:bg-[#c94742] cursor-pointer"
+                            >
                                 Cancel Order
                             </button>
                             <button type="button" className="h-11 rounded-xl bg-slate-100 text-sm font-semibold text-title hover:bg-slate-200 cursor-pointer">
@@ -376,6 +382,11 @@ const OrderDetailsPage = () => {
                     )}
                 </div>
             </div>
+
+            <CancelOrderModal
+                open={cancelModalOpen}
+                onClose={() => setCancelModalOpen(false)}
+            />
         </div>
     )
 }
