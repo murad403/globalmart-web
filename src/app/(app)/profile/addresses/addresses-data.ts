@@ -23,7 +23,7 @@ export const initialShippingAddresses: AddressRecord[] = [
     phone: '+11762396',
     line1: '409-2 E Washington Blvd',
     line2: 'Los Angeles, CA 90015, United States',
-    location: 'Los Angeles, CA',
+    location: '409-2 E Washington Blvd, Los Angeles, CA 90015, United States',
     tab: 'shipping'
   },
   {
@@ -34,7 +34,7 @@ export const initialShippingAddresses: AddressRecord[] = [
     phone: '+11762396',
     line1: '409-2 E Washington Blvd',
     line2: 'Los Angeles, CA 90015, United States',
-    location: 'Los Angeles, CA',
+    location: '409-2 E Washington Blvd, Los Angeles, CA 90015, United States',
     tab: 'shipping'
   }
 ]

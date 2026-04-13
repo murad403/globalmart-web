@@ -86,7 +86,7 @@ const OrdersPage = () => {
                                 <select
                                     value={statusFilter}
                                     onChange={(event) => setStatusFilter(event.target.value as (typeof orderStatusOptions)[number])}
-                                    className="h-10 w-full rounded-md border border-slate-200 bg-white pl-3 pr-3 text-sm outline-none"
+                                    className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm outline-none"
                                 >
                                     {orderStatusOptions.map((option) => (
                                         <option key={option} value={option}>
