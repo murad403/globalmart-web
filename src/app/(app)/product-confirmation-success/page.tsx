@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { ArrowLeft, ArrowRight, Check, ChevronLeft, Layers } from 'lucide-react'
+import { ArrowRight, Check, ChevronLeft, Layers } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import confirm from '@/assets/home/confirm.png'
 import { Button } from '@/components/ui/button'

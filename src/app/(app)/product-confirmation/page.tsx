@@ -1,142 +1,245 @@
 'use client'
-import Image from 'next/image'
-import { CheckCheck, ChevronLeft } from 'lucide-react'
+
+import { Heart, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { checkoutProducts, orderSummary } from '../checkout-data'
-import paymentmethod from "@/assets/home/payment.png";
-import shippingcompany from "@/assets/home/Shipping=Transcocargo.png";
-import { Button } from '@/components/ui/button'
+import { useMemo, useState } from 'react'
+import { checkoutProducts, orderSummary, paymentMethods, shippingMethods, type CheckoutProduct, type PaymentMethod, type ShippingMethod } from '../checkout-data'
+import VoucherPromoCard from '@/components/shared/VoucherPromoCard'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const formatMoney = (value: number) => `$ ${value.toFixed(2)}`
 
 const ProductConfirmationPage = () => {
     const router = useRouter()
+    const [cartItems, setCartItems] = useState<Array<CheckoutProduct & { quantity: number }>>(() =>
+        checkoutProducts.map((product) => ({ ...product, quantity: 1 }))
+    )
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(paymentMethods[0]?.id ?? '')
+    const [selectedShippingMethod, setSelectedShippingMethod] = useState(shippingMethods[0]?.id ?? '')
+
+    const handleQuantity = (id: string, quantity: number) => {
+        setCartItems((prev) =>
+            prev.map((item) => {
+                if (item.id !== id) {
+                    return item
+                }
+                return {
+                    ...item,
+                    quantity: Math.max(1, quantity)
+                }
+            })
+        )
+    }
+
+    const removeItem = (id: string) => {
+        setCartItems((prev) => prev.filter((item) => item.id !== id))
+    }
+
+    const removeAllItems = () => {
+        setCartItems([])
+    }
+
+    const totalProduct = useMemo(
+        () => cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
+        [cartItems]
+    )
+    const taxAmount = orderSummary.tax
+    const voucherAmount = 35
+    const totalPayment = Math.max(0, totalProduct + taxAmount - voucherAmount)
 
     return (
         <section className="w-full py-8 md:py-10">
             <div className="container mx-auto px-4">
-                <div className="mx-auto max-w-6xl">
-                    <button
-                        type="button"
-                        onClick={() => router.back()}
-                        className="inline-flex items-center gap-3 text-title cursor-pointer"
-                    >
-                        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white transition hover:bg-slate-50">
-                            <ChevronLeft className="h-5 w-5" />
-                        </span>
-                        <span className="text-xl font-semibold">Back</span>
-                    </button>
+                <div>
+                    <div className="flex items-center gap-2 text-xs text-description">
+                        <Link href={"/"}>Home</Link>
+                        <span>›</span>
+                        <Link href={"/cart"}>Cart</Link>
+                        <span>›</span>
+                        <Link href={"/customer-information"}>Customer Info</Link>
+                        <span>›</span>
+                        <span className="font-medium text-title">Product Confirmation</span>
+                    </div>
 
                     <h1 className="mt-6 text-4xl font-bold text-title">Product Confirmation</h1>
                     <p className="mt-2 text-2xl text-description">Let&apos;s create your account</p>
 
                     <div className="mt-8 grid gap-7 lg:grid-cols-[minmax(0,1fr)_320px]">
-                        <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-6">
-                            <div className="border-b border-slate-200 pb-4">
-                                <p className="text-sm font-semibold uppercase tracking-[0.08em] text-description">Shopping items</p>
+                        <div className="space-y-6">
+                            <div className="grid gap-6 lg:grid-cols-2">
+                                {/* Payment Methods Section */}
+                                <div className="rounded-xl border border-slate-200 bg-white p-6">
+                                    <h3 className="text-lg font-semibold text-title">Payment</h3>
+                                    <p className="mt-1 text-xs text-description">Please choose a payment method</p>
+
+                                    <div className="mt-6 space-y-3">
+                                        {paymentMethods.slice(0, 3).map((method: PaymentMethod) => (
+                                            <label
+                                                key={method.id}
+                                                className="flex cursor-pointer items-center gap-4 rounded-lg bg-[#F8FAFE] px-4 py-3 transition hover:border-slate-300"
+                                            >
+                                                {/* Logo on left */}
+                                                <div className="h-8 w-12 shrink-0 flex items-center justify-center">
+                                                    <Image
+                                                        src={method.logo}
+                                                        alt={method.title}
+                                                        className="h-full w-full object-contain"
+                                                        quality={100}
+                                                    />
+                                                </div>
+
+                                                {/* Title and recommendation in middle */}
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-sm font-medium text-title">{method.title}</span>
+                                                        {method.recommendation && (
+                                                            <span className="inline-block rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white">
+                                                                Recomendation
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                {/* Radio button on right */}
+                                                <input
+                                                    type="radio"
+                                                    value={method.id}
+                                                    checked={selectedPaymentMethod === method.id}
+                                                    onChange={() => setSelectedPaymentMethod(method.id)}
+                                                    className="h-5 w-5 accent-orange-500 shrink-0"
+                                                />
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Shipping Methods Section */}
+                                <div className=" bg-white">
+                                    <h3 className="text-lg font-semibold text-title">Shipping</h3>
+                                    <p className="mt-1 text-xs text-description">Please choose a shipping company based on your region</p>
+
+                                    <div className="mt-6 space-y-3">
+                                        {shippingMethods.map((method: ShippingMethod) => (
+                                            <label
+                                                key={method.id}
+                                                className="flex cursor-pointer items-start justify-between rounded-lg border bg-[#F5F5F5] border-slate-200 px-4 py-3 transition hover:border-slate-300"
+                                            >
+                                                <div className="flex items-start gap-3">
+                                                    <input
+                                                        type="radio"
+                                                        value={method.id}
+                                                        checked={selectedShippingMethod === method.id}
+                                                        onChange={() => setSelectedShippingMethod(method.id)}
+                                                        className="mt-1 h-4 w-4 accent-blue-600"
+                                                    />
+                                                    <div className="flex-1">
+                                                        <p className="text-sm font-semibold text-title">{method.title}</p>
+                                                        <p className="mt-1 text-xs text-description">Delivery time: {method.deliveryTime}</p>
+                                                        <p className="text-xs text-description">
+                                                            Shipping cost: {typeof method.shippingCost === 'string' ? method.shippingCost : `₹${method.shippingCost}`}
+                                                        </p>
+                                                        <p className={`text-xs font-medium ${method.insurance === 'Available' ? 'text-emerald-600' : 'text-orange-500'}`}>
+                                                            Insurance: {method.insurance}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="px-4 py-3 shrink-0 flex items-center justify-center bg-white rounded">
+                                                    <Image src={method.logo} width={50} height={70} alt='method' />
+                                                </div>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
 
-                            <div className="divide-y divide-slate-200">
-                                {checkoutProducts.map((product) => (
-                                    <div key={product.id} className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-3 py-4 sm:gap-4">
-                                        <div className="relative h-16 w-16 overflow-hidden rounded-lg border border-slate-200">
-                                            <Image src={product.image} alt={product.name} fill className="object-cover" sizes="64px" />
+                            <div>
+                                {cartItems.length > 0 ? (
+                                    <>
+                                        <div className="space-y-3 border border-slate-200 p-5 rounded-xl">
+                                            {cartItems.map((item) => (
+                                                <div key={item.id} className="border-b pb-2 border-slate-200 bg-white">
+                                                    <div className="grid grid-cols-[64px_minmax(0,1fr)_auto] items-start gap-3 sm:grid-cols-[68px_minmax(0,1fr)_auto_auto]">
+                                                        <div className="relative h-16 w-16 overflow-hidden rounded-lg border border-slate-200">
+                                                            <Image src={item.image} alt={item.name} fill className="object-cover" sizes="68px" />
+                                                        </div>
+
+                                                        <div className="min-w-0">
+                                                            <p className="line-clamp-1 text-sm font-semibold text-title">Great product name goes here</p>
+                                                            <p className="text-[13px] text-description">Color: {item.color}</p>
+                                                            <p className="text-[13px] text-description">Size: {item.fit}</p>
+                                                            <p className="text-[13px] text-description">Price: {formatMoney(item.price)} / per item</p>
+                                                        </div>
+
+                                                        <div className="space-y-1 text-right">
+                                                            <p className="text-xs font-semibold text-title">{formatMoney(item.price * item.quantity)}</p>
+                                                            <div className='flex items-center gap-2'>
+                                                                <select
+                                                                    value={item.quantity}
+                                                                    onChange={(e) => handleQuantity(item.id, Number(e.target.value))}
+                                                                    className="h-7 rounded border border-slate-300 bg-white px-2 text-xs text-title outline-none"
+                                                                    aria-label={`Select quantity for ${item.name}`}
+                                                                >
+                                                                    {Array.from({ length: 10 }, (_, index) => (
+                                                                        <option key={index + 1} value={index + 1}>Qty: {index + 1}</option>
+                                                                    ))}
+                                                                </select>
+                                                                <button
+                                                                    type="button"
+                                                                    className="text-slate-400 transition hover:text-red-500 bg-[#EDF0F2] p-2 rounded-lg cursor-pointer"
+                                                                    aria-label={`Remove ${item.name}`}
+                                                                >
+                                                                    <Heart className="h-4 w-4" />
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => removeItem(item.id)}
+                                                                    className="text-slate-400 transition hover:text-red-500 bg-[#EDF0F2] p-2 rounded-lg cursor-pointer"
+                                                                    aria-label={`Remove ${item.name}`}
+                                                                >
+                                                                    <X className="h-4 w-4" />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
-                                        <div>
-                                            <p className="font-semibold text-title">{product.name}-{product.fit}</p>
-                                            <p className="text-sm text-description">Color: {product.color}</p>
-                                            <p className="text-xs text-description">x1</p>
-                                        </div>
-                                        <div className="text-right text-sm font-medium text-title">{formatMoney(product.price)}</div>
+                                        <button
+                                            type="button"
+                                            onClick={removeAllItems}
+                                            className="mt-3 text-xs font-medium text-description underline"
+                                        >
+                                            Remove all from cart
+                                        </button>
+                                    </>
+                                ) : (
+                                    <div className="rounded-xl border border-dashed border-slate-300 bg-white px-5 py-8 text-center">
+                                        <p className="text-lg font-semibold text-title">Your cart is empty.</p>
+                                        <button
+                                            type="button"
+                                            onClick={() => router.push('/all-products')}
+                                            className="mt-3 text-sm font-semibold text-main underline"
+                                        >
+                                            Continue shopping
+                                        </button>
                                     </div>
-                                ))}
-                            </div>
-
-                            <div className="mt-4 border-t border-slate-200 pt-4 flex justify-between items-center">
-                                <div>
-                                    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-description">Payment method</p>
-                                    <p className="mt-2 text-sm font-semibold text-title">Paypal</p>
-                                </div>
-                                <Image src={paymentmethod} alt="Payment Method" className="mt-2 h-10 w-auto object-contain" />
-                            </div>
-                            <div className="mt-4 border-t border-slate-200 pt-4 flex justify-between items-center">
-
-                                <div>
-                                    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-description">Shipping company</p>
-                                    <p className="mt-2 text-sm font-semibold text-title">RaceCouriers</p>
-                                </div>
-                                <Image src={shippingcompany} alt="Shipping Company" className="mt-2 h-10 w-auto object-contain" />
-                            </div>
-
-                            <div className="mt-4 border-t border-slate-200 pt-4 text-sm text-description">
-                                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.08em]">Delivery information</p>
-                                <div className="">
-                                    <div className="flex justify-between">
-                                        <p className="text-description text-base">Name:</p>
-                                        <p className="text-title text-base">Supro Safa</p>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <p className="text-description text-base">Country:</p>
-                                        <p className="text-title text-base">India</p>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <p className="text-description text-base">Address:</p>
-                                        <p className="text-title text-base">21/3, JR Elegance</p>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <p className="text-description text-base">City:</p>
-                                        <p className="text-title text-base">Bangalore</p>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <p className="text-description text-base">Phone:</p>
-                                        <p className="text-title text-base">+91 7319265132</p>
-                                    </div>
-                                </div>
-
+                                )}
                             </div>
                         </div>
 
-                        <aside className="h-fit rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-24">
-                            <h2 className="text-lg font-semibold text-title">Order Summary</h2>
-                            <div className="mt-4 space-y-2 text-sm text-description">
-                                <div className="flex justify-between">
-                                    <span>Price</span>
-                                    <span className="font-medium text-title">{formatMoney(orderSummary.price)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Shipping</span>
-                                    <span className="font-medium text-title">{formatMoney(orderSummary.shipping)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Tax</span>
-                                    <span className="font-medium text-title">{formatMoney(orderSummary.tax)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Discount price</span>
-                                    <span className="font-medium text-title">{formatMoney(orderSummary.discount)}</span>
-                                </div>
-                                <label className="mt-2 flex items-center gap-2 rounded-md bg-slate-50 p-2 text-xs">
-                                    <input type="checkbox" className="h-3.5 w-3.5 accent-main" defaultChecked />
-                                    <span>Pack in a Gift Box</span>
-                                    <span className="ml-auto font-medium text-title">{formatMoney(orderSummary.giftBox)}</span>
-                                </label>
-                            </div>
-
-                            <div className="mt-4 border-t border-slate-200 pt-4">
-                                <div className="flex items-center justify-between">
-                                    <span className="text-sm font-semibold text-description">Total Price</span>
-                                    <span className="text-xl font-bold text-title">{formatMoney(orderSummary.total)}</span>
-                                </div>
-                                <Button
-                                    type="button"
-                                    onClick={() => router.push('/product-confirmation-success')}
-                                    className="mt-2 w-full"
-                                >
-                                    <CheckCheck className="h-4 w-4" />
-                                    CONFIRM
-                                </Button>
-                            </div>
-                        </aside>
+                        <VoucherPromoCard
+                            totalProduct={totalProduct}
+                            tax={taxAmount}
+                            voucher={voucherAmount}
+                            totalPayment={totalPayment}
+                            actionLabel="Continue"
+                            onAction={() => router.push('/product-confirmation-success')}
+                            disabled={cartItems.length === 0}
+                            className="lg:sticky lg:top-24"
+                        />
                     </div>
                 </div>
             </div>

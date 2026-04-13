@@ -6,6 +6,11 @@ import arrivals1 from '@/assets/home/arrivals1.png'
 import arrivals2 from '@/assets/home/arrivals2.png'
 import arrivals3 from '@/assets/home/arrivals3.png'
 import arrivals4 from '@/assets/home/arrivals4.png'
+import paymentLogo from '@/assets/home/payment.png'
+import payment2 from "@/assets/payments/5dae0dc5ba0350bc45bb8e052ffd83493be22c5d.png"
+import payment3 from "@/assets/payments/c3cd6b27d44d2742024d3856494f8f50abda2b34.png"
+import method1 from "@/assets/payments/b6a0443def60ee05c9501efffe3544bee6560d25.gif"
+import method2 from "@/assets/payments/c3cd6b27d44d2742024d3856494f8f50abda2b34.png"
 
 export type CheckoutProduct = {
   id: string
@@ -95,36 +100,69 @@ export const youMayAlsoLike = [
   }
 ]
 
-export const paymentMethods = [
+export type PaymentMethod = {
+  id: string
+  title: string
+  icon: string
+  color: string
+  logo: StaticImageData
+  recommendation?: boolean
+}
+
+export type ShippingMethod = {
+  id: string
+  title: string
+  country: string
+  deliveryTime: string
+  shippingCost: number | string
+  insurance: string
+  logo: StaticImageData
+}
+
+export const paymentMethods: PaymentMethod[] = [
   {
-    id: 'paypal',
-    title: 'Paypal',
-    description:
-      'PayPal is a trusted online payment platform that allows individuals and businesses to securely send and receive money electronically.'
+    id: 'bank-of-america',
+    title: 'Bank of America',
+    icon: 'bank',
+    color: 'red',
+    logo: paymentLogo,
+    recommendation: true
   },
   {
-    id: 'mastercard',
-    title: 'Mastercard',
-    description:
-      'Pay by debit or credit card from any major bank with end-to-end transaction protection.'
+    id: 'icbc',
+    title: 'ICBC',
+    icon: 'icbc',
+    color: 'red',
+    logo: payment2
+  },
+  {
+    id: 'jpmorgan',
+    title: 'JPMorgan Chase & Co',
+    icon: 'jpmorgan',
+    color: 'blue',
+    logo: payment3
   }
 ]
 
-export const shippingMethods = [
+export const shippingMethods: ShippingMethod[] = [
+  {
+    id: 'ausff',
+    title: 'AUSFF',
+    country: 'Australia',
+    deliveryTime: '14-21 days',
+    shippingCost: 'Free',
+    insurance: 'Unavailable',
+    logo: method1
+  },
   {
     id: 'racecouriers',
     title: 'RaceCouriers',
-    deliveryTime: '12-18 days',
+    country: 'Australia',
+    deliveryTime: '14-21 days',
     shippingCost: 10,
-    insurance: 'Available'
+    insurance: 'Available',
+    logo: method2
   },
-  {
-    id: 'transcocargo',
-    title: 'TranscoCargo',
-    deliveryTime: '14-22 days',
-    shippingCost: 12,
-    insurance: 'Available'
-  }
 ]
 
 export type WishlistItem = {

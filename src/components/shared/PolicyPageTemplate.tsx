@@ -1,5 +1,4 @@
-import Link from 'next/link'
-import { UserRound } from 'lucide-react'
+
 
 type PolicySection = {
   heading: string

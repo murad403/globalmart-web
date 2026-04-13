@@ -79,18 +79,33 @@ export type ResellerCompleteSignUpValues = z.infer<typeof resellerCompleteSignUp
 
 
 export const customerSignUpSchema = z
-  .object({
-    role: z.enum(['wholesaler', 'reseller', 'customer']),
-    firstName: z.string().min(1, 'First name is required').min(2, 'Enter a valid first name'),
-    lastName: z.string().min(1, 'Last name is required').min(2, 'Enter a valid last name'),
-    email: z.email('Please enter a valid email address.'),
-    password: z
-      .string()
-      .min(6, 'Password must be at least 6 characters long.')
-      .max(64, 'Password must be at most 64 characters long.'),
-    confirmPassword: z.string().min(6, 'Confirm password must be at least 6 characters long.')
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword']
-  })
+	.object({
+		role: z.enum(['wholesaler', 'reseller', 'customer']),
+		firstName: z.string().min(1, 'First name is required').min(2, 'Enter a valid first name'),
+		lastName: z.string().min(1, 'Last name is required').min(2, 'Enter a valid last name'),
+		email: z.email('Please enter a valid email address.'),
+		password: z
+			.string()
+			.min(6, 'Password must be at least 6 characters long.')
+			.max(64, 'Password must be at most 64 characters long.'),
+		confirmPassword: z.string().min(6, 'Confirm password must be at least 6 characters long.')
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: "Passwords don't match",
+		path: ['confirmPassword']
+	})
+
+export const customerInfoSchema = z.object({
+	email: z.email('Enter a valid email address'),
+	firstName: z.string().min(2, 'First name must be at least 2 characters'),
+	lastName: z.string().min(2, 'Last name must be at least 2 characters'),
+	country: z.string().min(1, 'Please select a country'),
+	city: z.string().min(1, 'Please select a city'),
+	address: z.string().min(5, 'Address must be at least 5 characters'),
+	phone: z
+		.string()
+		.min(8, 'Phone number must be at least 8 digits')
+		.regex(/^[0-9+\s()-]+$/, 'Phone number contains invalid characters'),
+	paymentMethod: z.string().min(1, 'Please choose a payment method'),
+	shippingMethod: z.string().min(1, 'Please choose a shipping method')
+})
