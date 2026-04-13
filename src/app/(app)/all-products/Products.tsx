@@ -1,15 +1,19 @@
 import React, { useMemo } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import ProductCard from './ProductCard'
+import { type StaticImageData } from 'next/image'
+import ProductCard from '@/components/shared/ProductCard'
 
 
 export type ProductViewItem = {
     id: number
-    name: string
-    price: number
+    title: string
+    description: string
+    price: string
+    priceValue: number
+    badge: string
+    image: StaticImageData
     rating: number
     reviews: number
-    flashLabel: string
     category: string
     inStock: boolean
     featured: boolean
@@ -20,12 +24,13 @@ type ProductsProps = {
     heading: string
     subHeading: string
     products: ProductViewItem[]
+    viewMode: 'grid' | 'list'
     currentPage: number
     totalPages: number
     onPageChange: (page: number) => void
 }
 
-const Products = ({ heading, subHeading, products, currentPage, totalPages, onPageChange }: ProductsProps) => {
+const Products = ({ heading, subHeading, products, viewMode, currentPage, totalPages, onPageChange }: ProductsProps) => {
     const paginationItems = useMemo(() => {
         if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1)
 
@@ -57,11 +62,19 @@ const Products = ({ heading, subHeading, products, currentPage, totalPages, onPa
                 </div>
             ) : (
                 <>
-                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-                        {products.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
+                    {viewMode === 'grid' ? (
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+                            {products.map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            {products.map((product) => (
+                                <ProductCard key={product.id} product={product} list />
+                            ))}
+                        </div>
+                    )}
 
                     {/* Pagination */}
                     {totalPages > 1 && (

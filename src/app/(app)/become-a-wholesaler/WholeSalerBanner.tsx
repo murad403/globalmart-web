@@ -79,7 +79,7 @@ const WholeSalerBanner = () => {
                   <ArrowRight className="h-5 w-5" />
                 </Button>
               </Link>
-              <Link href={"/"}
+              <Link href={"/wholesaler"}
                 className="border-slate-300 bg-white px-6 py-2.5 rounded-lg border text-title hover:bg-slate-200"
               >
                 View Dashboard

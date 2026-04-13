@@ -25,7 +25,7 @@ type FilterProps = {
 
 const SectionTitle = ({ title }: { title: string }) => {
   return (
-    <h2 className="mb-3 border-l-2 border-heading pl-2 text-base md:text-lg font-bold text-title">
+    <h2 className="mb-3 border-l-4 border-heading pl-2 text-base md:text-lg font-bold text-title">
       {title}
     </h2>
   )

@@ -1,33 +1,48 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import React from 'react'
-import ProductCard from '../ProductCard'
 import { type ProductViewItem } from '../Products'
+import ProductCard from '@/components/shared/ProductCard'
+import product1 from '@/assets/home/product1.png'
+import product2 from '@/assets/home/product2.png'
+import product3 from '@/assets/home/product3.png'
 
 const relatedProductBlueprints = [
   {
-    name: 'BenQ ScreenBar Halo LED Monitor Light',
+    title: 'BenQ ScreenBar Halo LED Monitor Light',
+    description: 'Eye-care monitor light with wireless controller for focused work sessions.',
     price: 125,
     rating: 4.7,
     reviews: 21671,
+    badge: 'Popular',
+    image: product1,
   },
   {
-    name: 'Honeywell Newly Launched 4-in-1 Ultra Slim USB Hub',
+    title: 'Honeywell Newly Launched 4-in-1 Ultra Slim USB Hub',
+    description: 'Slim USB hub with multiple ports for high-speed data and charging.',
     price: 125,
     rating: 4.7,
     reviews: 21671,
+    badge: 'Top Pick',
+    image: product2,
   },
   {
-    name: 'STRIFF Adjustable Laptop Tablet Stand',
+    title: 'STRIFF Adjustable Laptop Tablet Stand',
+    description: 'Sturdy foldable stand for better posture and improved airflow.',
     price: 125,
     rating: 4.7,
     reviews: 21671,
+    badge: 'Best Seller',
+    image: product3,
   },
   {
-    name: 'Dyazo Water Resistant Laptop Sleeve',
+    title: 'Dyazo Water Resistant Laptop Sleeve',
+    description: 'Protective laptop sleeve built with water-resistant fabric and soft interior.',
     price: 125,
     rating: 4.7,
     reviews: 21671,
+    badge: 'New',
+    image: product1,
   },
 ]
 
@@ -36,11 +51,14 @@ const relatedProducts: ProductViewItem[] = Array.from({ length: 12 }, (_, index)
 
   return {
     id: 5000 + index,
-    name: blueprint.name,
-    price: blueprint.price,
+    title: blueprint.title,
+    description: blueprint.description,
+    price: `$${blueprint.price.toFixed(2)}`,
+    priceValue: blueprint.price,
+    badge: blueprint.badge,
+    image: blueprint.image,
     rating: blueprint.rating,
     reviews: blueprint.reviews,
-    flashLabel: 'Frequently Bought Together',
     category: 'Electronics',
     inStock: true,
     featured: true,

@@ -2,9 +2,12 @@
 
 import React, { useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ChevronLeft, LayoutGrid } from 'lucide-react'
+import { ChevronLeft, LayoutGrid, Rows3 } from 'lucide-react'
 import Filter from './Filter'
 import Products, { type ProductViewItem } from './Products'
+import product1 from '@/assets/home/product1.png'
+import product2 from '@/assets/home/product2.png'
+import product3 from '@/assets/home/product3.png'
 
 type PriceRange = {
   min: number | null
@@ -30,25 +33,31 @@ const sourceOptions = ['all', 'flash-sales', 'featured', 'new-arrivals', 'produc
 
 const productBlueprints = [
   {
-    name: 'Honeywell Newly Launched 4-in-1 Ultra Slim USB Hub',
+    title: 'Honeywell Newly Launched 4-in-1 Ultra Slim USB Hub',
+    description: 'Multiport USB hub for laptops and tablets with durable aluminum body.',
     basePrice: 125,
     baseRating: 4.7,
     baseReviews: 21671,
-    flashLabel: 'Flash Deal Ends In 5 Hours !'
+    badge: 'Flash Deal',
+    image: product1
   },
   {
-    name: 'STRIFF Adjustable Laptop Tablet Stand',
+    title: 'STRIFF Adjustable Laptop Tablet Stand',
+    description: 'Ergonomic foldable stand with anti-slip base for daily desk setup.',
     basePrice: 125,
     baseRating: 4.7,
     baseReviews: 21671,
-    flashLabel: 'Flash Deal Ends In 5 Hours !'
+    badge: 'Best Seller',
+    image: product2
   },
   {
-    name: 'Dyazo Water Resistant Laptop Sleeve',
+    title: 'Dyazo Water Resistant Laptop Sleeve',
+    description: 'Shockproof sleeve for 13-15 inch devices with premium inner lining.',
     basePrice: 125,
     baseRating: 4.7,
     baseReviews: 21671,
-    flashLabel: 'Flash Deal Ends In 5 Hours !'
+    badge: 'New Arrival',
+    image: product3
   }
 ]
 
@@ -65,11 +74,14 @@ const allProducts: ProductViewItem[] = Array.from({ length: 145 }, (_, index) =>
 
   return {
     id: index + 1,
-    name: blueprint.name,
-    price: blueprint.basePrice + (cycle % 5) * 10,
+    title: blueprint.title,
+    description: blueprint.description,
+    price: `$${(blueprint.basePrice + (cycle % 5) * 10).toFixed(2)}`,
+    priceValue: blueprint.basePrice + (cycle % 5) * 10,
+    badge: blueprint.badge,
+    image: blueprint.image,
     rating: Math.max(3.5, Number((blueprint.baseRating - (cycle % 4) * 0.2).toFixed(1))),
     reviews: blueprint.baseReviews + cycle * 2,
-    flashLabel: blueprint.flashLabel,
     category: categoryOptions[cycle % categoryOptions.length],
     inStock: cycle % 6 !== 0,
     featured: cycle % 5 !== 1,
@@ -113,6 +125,7 @@ const AllProductsPage = () => {
   const [featuredOnly, setFeaturedOnly] = useState(true)
   const [itemsPerPage, setItemsPerPage] = useState(9)
   const [sortBy, setSortBy] = useState('popular')
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [currentPage, setCurrentPage] = useState(1)
   const [filterOpen, setFilterOpen] = useState(false)
 
@@ -124,10 +137,10 @@ const AllProductsPage = () => {
     const selectedRatingFloor = selectedRatings.length > 0 ? Math.min(...selectedRatings) : null
     return allProducts.filter((product) => {
       if (source !== 'all' && !product.sourceTags.includes(source)) return false
-      if (searchTerm && !product.name.toLowerCase().includes(searchTerm)) return false
+      if (searchTerm && !product.title.toLowerCase().includes(searchTerm)) return false
       if (selectedCategories.length > 0 && !selectedCategories.includes(product.category)) return false
-      if (appliedPriceRange.min !== null && product.price < appliedPriceRange.min) return false
-      if (appliedPriceRange.max !== null && product.price > appliedPriceRange.max) return false
+      if (appliedPriceRange.min !== null && product.priceValue < appliedPriceRange.min) return false
+      if (appliedPriceRange.max !== null && product.priceValue > appliedPriceRange.max) return false
       if (inStockOnly && !product.inStock) return false
       if (featuredOnly && !product.featured) return false
       if (selectedRatingFloor !== null && product.rating < selectedRatingFloor) return false
@@ -138,8 +151,8 @@ const AllProductsPage = () => {
   const sortedProducts = useMemo(() => {
     const copiedProducts = [...filteredProducts]
     switch (sortBy) {
-      case 'price-low-to-high': return copiedProducts.sort((a, b) => a.price - b.price)
-      case 'price-high-to-low': return copiedProducts.sort((a, b) => b.price - a.price)
+      case 'price-low-to-high': return copiedProducts.sort((a, b) => a.priceValue - b.priceValue)
+      case 'price-high-to-low': return copiedProducts.sort((a, b) => b.priceValue - a.priceValue)
       case 'top-rated': return copiedProducts.sort((a, b) => b.rating - a.rating || b.reviews - a.reviews)
       case 'latest': return copiedProducts.sort((a, b) => b.id - a.id)
       default: return copiedProducts.sort((a, b) => b.reviews - a.reviews)
@@ -236,7 +249,30 @@ const AllProductsPage = () => {
 
           {/* Middle side */}
           <div className="flex items-center justify-start gap-1.5 text-base text-description md:justify-center">
-            <LayoutGrid className="size-5 shrink-0" />
+            <button
+              type="button"
+              onClick={() => setViewMode('grid')}
+              aria-label="Grid view"
+              className={`grid h-7 w-7 place-items-center rounded border transition ${
+                viewMode === 'grid'
+                  ? 'border-heading bg-heading/10 text-heading'
+                  : 'border-slate-200 bg-white text-slate-400 hover:text-title'
+              }`}
+            >
+              <LayoutGrid className="size-4 shrink-0" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('list')}
+              aria-label="List view"
+              className={`grid h-7 w-7 place-items-center rounded border transition ${
+                viewMode === 'list'
+                  ? 'border-heading bg-heading/10 text-heading'
+                  : 'border-slate-200 bg-white text-slate-400 hover:text-title'
+              }`}
+            >
+              <Rows3 className="size-4 shrink-0" />
+            </button>
             <p className="whitespace-nowrap">Showing {showingFrom} - {showingTo} of {sortedProducts.length} items</p>
           </div>
 
@@ -308,7 +344,7 @@ const AllProductsPage = () => {
         {/* Main Grid */}
         <section className="md:flex gap-8">
           {/* Desktop Filter — hidden on mobile */}
-          <div className="hidden md:block max-w-xs">
+          <div className="hidden md:block max-w-65">
             <Filter {...filterProps} />
           </div>
 
@@ -317,6 +353,7 @@ const AllProductsPage = () => {
               heading={heading}
               subHeading={subHeading}
               products={paginatedProducts}
+              viewMode={viewMode}
               currentPage={safeCurrentPage}
               totalPages={totalPages}
               onPageChange={(page) => setCurrentPage(Math.min(Math.max(page, 1), totalPages))}

@@ -8,7 +8,7 @@ import WholeSalerGuide from './WholeSalerGuide'
 
 const page = () => {
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-12 md:space-y-18">
         <WholeSalerBanner/>
         <WhyChooseUs/>
         <WholeSalerGuide/>
