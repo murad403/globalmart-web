@@ -65,13 +65,13 @@ const Products = ({ heading, subHeading, products, viewMode, currentPage, totalP
                     {viewMode === 'grid' ? (
                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
                             {products.map((product) => (
-                                <ProductCard key={product.id} product={product} />
+                                <ProductCard key={product.id} product={product} href={`/all-products/${product.id}`} />
                             ))}
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             {products.map((product) => (
-                                <ProductCard key={product.id} product={product} list />
+                                <ProductCard key={product.id} product={product} list href={`/all-products/${product.id}`} />
                             ))}
                         </div>
                     )}

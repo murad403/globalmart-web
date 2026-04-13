@@ -6,7 +6,7 @@ import RelatedProducts from './RelatedProducts'
 
 const page = () => {
   return (
-    <div>
+    <div className='space-y-8 md:space-y-12'>
       <ProductDetails />
       <ProductFeatures />
       <RelatedProducts/>

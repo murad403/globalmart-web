@@ -15,11 +15,11 @@ type PolicyPageTemplateProps = {
 
 const PolicyPageTemplate = ({ title, intro, sections }: PolicyPageTemplateProps) => {
   return (
-    <section className="w-full bg-[#F3F3F3] py-8 md:py-10">
+    <section className="w-full py-8 md:py-10">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto mt-10 max-w-5xl pb-10 md:mt-12">
-            <h1 className="text-center text-4xl font-bold text-black md:text-5xl">{title}</h1>
+            <h1 className="text-4xl font-bold text-black md:text-5xl">{title}</h1>
 
             <article className="mt-8 space-y-3 text-base leading-6 text-slate-600 md:text-[13px]">
               {intro.map((paragraph) => (

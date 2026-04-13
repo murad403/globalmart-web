@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import Image, { type StaticImageData } from 'next/image'
-import { ChevronLeft, ChevronRight, Heart, Minus, Plus, Repeat2, Share2, ShoppingCart, Star} from 'lucide-react'
+import { ChevronLeft, ChevronRight, Heart, Minus, Plus, Repeat2, Share2, ShoppingCart, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import product1 from '@/assets/home/product1.png'
 import product2 from '@/assets/home/product2.png'
@@ -83,9 +83,8 @@ const ProductDetails = () => {
                     key={`thumb-${index}`}
                     type="button"
                     onClick={() => setActiveImageIndex(index)}
-                    className={`relative h-12 w-16 shrink-0 overflow-hidden rounded border bg-white p-1 sm:h-14 sm:w-20 ${
-                      activeImageIndex === index ? 'border-title' : 'border-slate-200'
-                    }`}
+                    className={`relative h-12 w-16 shrink-0 overflow-hidden rounded border bg-white p-1 sm:h-14 sm:w-20 ${activeImageIndex === index ? 'border-title' : 'border-slate-200'
+                      }`}
                     aria-label={`View image ${index + 1}`}
                   >
                     <Image
@@ -163,9 +162,8 @@ const ProductDetails = () => {
                       key={color}
                       type="button"
                       onClick={() => setSelectedColor(color)}
-                      className={`grid size-8 place-items-center rounded-full border ${
-                        selectedColor === color ? 'border-title' : 'border-slate-300'
-                      }`}
+                      className={`grid size-8 place-items-center rounded-full border ${selectedColor === color ? 'border-title' : 'border-slate-300'
+                        }`}
                       aria-label={`Select color ${color}`}
                     >
                       <span className="size-6 rounded-full" style={{ backgroundColor: color }} />
@@ -214,7 +212,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="mt-6 flex items-center gap-3">
               <div className="flex h-11 items-center gap-4 rounded-full border border-slate-300 px-4">
                 <button type="button" onClick={decreaseQuantity} aria-label="Decrease quantity">
                   <Minus className="size-4 text-description" />
@@ -225,21 +223,17 @@ const ProductDetails = () => {
                 </button>
               </div>
 
-              <Button type="button" className="h-11 rounded-full px-8 text-sm font-bold uppercase">
-                GET DEAL ( ৳90K )
-              </Button>
-
-              <button
+              <Button
+                className='w-full max-w-sm'
                 type="button"
-                className="inline-flex h-11 items-center cursor-pointer gap-2 rounded-full border-2 border-main px-6 text-sm font-semibold text-main transition hover:bg-main/5"
               >
                 <ShoppingCart className="size-4" />
                 ADD
-              </button>
+              </Button>
             </div>
 
             <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-description">
-              <button type="button" className="inline-flex items-center gap-1.5 hover:text-title">
+              <button type="button" className="inline-flex items-center gap-1.5 hover:text-title cursor-pointer">
                 <Heart className="size-4" />
                 Add to Wishlist
               </button>

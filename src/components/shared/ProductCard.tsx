@@ -1,8 +1,10 @@
 import { Heart, ShoppingCart, Star } from 'lucide-react'
 import Image, { StaticImageData } from 'next/image'
+import Link from 'next/link'
 import { Button } from '../ui/button'
 
 type PopularProduct = {
+    id?: number
     title: string
     description: string
     price: string
@@ -12,9 +14,10 @@ type PopularProduct = {
     reviews?: number
 }
 
-const ProductCard = ({ product, list = false }: { product: PopularProduct; list?: boolean }) => {
+const ProductCard = ({ product, list = false, href }: { product: PopularProduct; list?: boolean; href?: string }) => {
     const rating = product.rating ?? 4.7
     const reviews = product.reviews ?? 21671
+    const detailHref = href ?? (product.id ? `/all-products/${product.id}` : undefined)
 
     return (
         <article
@@ -24,13 +27,25 @@ const ProductCard = ({ product, list = false }: { product: PopularProduct; list?
         >
             <div className={list ? 'flex flex-col sm:flex-row sm:items-stretch' : 'relative'}>
                 <div className={`relative overflow-hidden bg-slate-100 ${list ? 'h-52 w-full sm:min-h-59 sm:w-1/2' : 'h-56 w-full sm:h-60'}`}>
-                    <Image
-                        src={product.image}
-                        alt={product.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes={list ? '(max-width: 640px) 100vw, 260px' : '(max-width: 640px) 85vw, (max-width: 1024px) 48vw, 24vw'}
-                    />
+                    {detailHref ? (
+                        <Link href={detailHref} aria-label={`View details for ${product.title}`} className="block h-full w-full">
+                            <Image
+                                src={product.image}
+                                alt={product.title}
+                                fill
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                sizes={list ? '(max-width: 640px) 100vw, 260px' : '(max-width: 640px) 85vw, (max-width: 1024px) 48vw, 24vw'}
+                            />
+                        </Link>
+                    ) : (
+                        <Image
+                            src={product.image}
+                            alt={product.title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes={list ? '(max-width: 640px) 100vw, 260px' : '(max-width: 640px) 85vw, (max-width: 1024px) 48vw, 24vw'}
+                        />
+                    )}
 
                     <span className="absolute left-2 top-2 rounded-md bg-[#E11D48] px-2 py-1 text-[11px] font-medium text-white">
                         {product.badge}
@@ -47,7 +62,13 @@ const ProductCard = ({ product, list = false }: { product: PopularProduct; list?
 
                 <div className={`flex h-full flex-col ${list ? 'flex-1 p-4' : 'p-3 md:p-4'}`}>
                     <h3 className={`line-clamp-2 font-medium text-title ${list ? 'text-base leading-7' : 'text-[15px] leading-6 md:text-base'}`}>
-                        {product.title}
+                        {detailHref ? (
+                            <Link href={detailHref} className="transition-colors hover:text-heading">
+                                {product.title}
+                            </Link>
+                        ) : (
+                            product.title
+                        )}
                     </h3>
 
                     <p className="mt-1 line-clamp-2 text-sm leading-6 text-description">
