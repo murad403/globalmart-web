@@ -21,11 +21,11 @@ const ProductCard = ({ product, list = false, href }: { product: PopularProduct;
 
     return (
         <article
-            className={`group overflow-hidden rounded-2xl border hover:border-heading border-slate-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 hover:-translate-y-0.5 ${
+            className={`group flex h-full flex-col overflow-hidden rounded-2xl border hover:border-heading border-slate-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.06)] transition-transform duration-300 hover:-translate-y-0.5 ${
                 list ? '' : 'min-w-[85%] sm:min-w-[48%] lg:min-w-[24%]'
             }`}
         >
-            <div className={list ? 'flex flex-col sm:flex-row sm:items-stretch' : 'relative'}>
+            <div className={list ? 'flex flex-col sm:flex-row sm:items-stretch' : 'flex h-full flex-col'}>
                 <div className={`relative overflow-hidden bg-slate-100 ${list ? 'h-52 w-full sm:min-h-59 sm:w-1/2' : 'h-56 w-full sm:h-60'}`}>
                     {detailHref ? (
                         <Link href={detailHref} aria-label={`View details for ${product.title}`} className="block h-full w-full">
@@ -60,7 +60,7 @@ const ProductCard = ({ product, list = false, href }: { product: PopularProduct;
                     </button>
                 </div>
 
-                <div className={`flex h-full flex-col ${list ? 'flex-1 p-4' : 'p-3 md:p-4'}`}>
+                <div className={`flex h-full flex-1 flex-col ${list ? 'p-4' : 'p-3 md:p-4'}`}>
                     <h3 className={`line-clamp-2 font-medium text-title ${list ? 'text-base leading-7' : 'text-[15px] leading-6 md:text-base'}`}>
                         {detailHref ? (
                             <Link href={detailHref} className="transition-colors hover:text-heading">
@@ -86,7 +86,7 @@ const ProductCard = ({ product, list = false, href }: { product: PopularProduct;
                     </div>
 
                     <Button
-                        className='mt-4'
+                        className='mt-auto'
                         type="button"
                     >
                         <ShoppingCart className="size-4" />
