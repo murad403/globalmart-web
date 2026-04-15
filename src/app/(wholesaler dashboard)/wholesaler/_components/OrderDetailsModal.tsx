@@ -83,7 +83,7 @@ export default function OrderDetailsModal({ isOpen, order, onClose }: OrderDetai
             <p className="mt-1 text-xs text-main/80">Order has been dispatched and is on its way to the reseller.</p>
           </div>
 
-          <button type="button" onClick={onClose} className="h-10 w-full rounded-lg bg-muted text-sm font-semibold text-title hover:bg-muted/80">
+          <button type="button" onClick={onClose} className="h-10 w-full rounded-lg bg-muted text-sm font-semibold text-title hover:bg-muted/80 cursor-pointer">
             Close
           </button>
         </div>

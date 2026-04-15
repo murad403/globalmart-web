@@ -57,7 +57,7 @@ const RecentOrders = () => {
                 <table className="min-w-full">
                     <thead>
                         <tr className="border-b border-border">
-                            <th className="px-5 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Order ID</th>
+                            <th className="px-5 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase whitespace-nowrap">Order ID</th>
                             <th className="px-5 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Reseller</th>
                             <th className="px-5 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Total</th>
                             <th className="px-5 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Status</th>
@@ -67,15 +67,15 @@ const RecentOrders = () => {
                     <tbody>
                         {recentOrders.map((order) => (
                             <tr key={order.id} className="border-b border-border/70 last:border-b-0">
-                                <td className="px-5 py-4 text-sm font-semibold text-main">{order.id}</td>
-                                <td className="px-5 py-4 text-sm text-title">{order.reseller}</td>
+                                <td className="px-5 py-4 text-sm font-semibold text-main whitespace-nowrap">{order.id}</td>
+                                <td className="px-5 py-4 text-sm text-title whitespace-nowrap">{order.reseller}</td>
                                 <td className="px-5 py-4 text-sm font-semibold text-title">{order.total}</td>
                                 <td className="px-5 py-4 text-sm">
                                     <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[order.status]}`}>
                                         {order.status}
                                     </span>
                                 </td>
-                                <td className="px-5 py-4 text-sm text-description">{order.date}</td>
+                                <td className="px-5 py-4 text-sm text-description whitespace-nowrap">{order.date}</td>
                             </tr>
                         ))}
                     </tbody>

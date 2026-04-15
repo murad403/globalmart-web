@@ -1,7 +1,7 @@
 "use client"
 
 import Image, { type StaticImageData } from 'next/image'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { CheckCheck, Mic, MoreVertical, Paperclip, Search, Send, Smile } from 'lucide-react'
 import user01 from '@/assets/users/3d27418f08b3448c62c8d63536c3a0325169a12b.jpg'
 import user02 from '@/assets/users/3a4066517ef7f7109813900c6de4bd04be7bc2f9.jpg'
@@ -10,10 +10,11 @@ import user04 from '@/assets/users/43cd3b84a2a17db545d08b9fbf02ca28690bf13b.jpg'
 import user05 from '@/assets/users/5cfa0225922fdb875e3257f44fcbeac9d0c93842.jpg'
 import user06 from '@/assets/users/772e5bfaa673735b7f59975ec7cfac434f9ba4e3.jpg'
 import user07 from '@/assets/users/852288221264da3aad485672f983da84de9ca453.png'
+import file1 from "@/assets/users/file1.png"
+import file2 from "@/assets/users/file2.png"
 import user08 from '@/assets/users/da6ca4418b3db385d03bb5f4e0ac9df71e41ad72.jpg'
 import fileThumb01 from '@/assets/home/product1.png'
 import fileThumb02 from '@/assets/home/product2.png'
-import fileThumb03 from '@/assets/home/product3.png'
 import fileThumb04 from '@/assets/home/ai.png'
 
 type Contact = {
@@ -75,17 +76,23 @@ const initialMessages: Record<string, ChatMessage[]> = {
 }
 
 const defaultAttachments: AttachmentItem[] = [
-    { id: 'f1', name: 'Very important file.figma', meta: '7.5 MB 3.22.22, 11:15 AM', thumbnail: fileThumb01 },
-    { id: 'f2', name: 'Some file, scratch', meta: '7.5 MB 3.22.22, 11:15 AM', thumbnail: fileThumb02 },
-    { id: 'f3', name: 'List of someting.xd', meta: '7.5 MB 3.22.22, 11:15 AM', thumbnail: fileThumb03 },
-    { id: 'f4', name: 'Very important fil.svg', meta: '7.5 MB 3.22.22, 11:15 AM', thumbnail: fileThumb04 }
+    { id: 'f1', name: 'Very important file.figma', meta: '7.5 MB 3.22.22, 11:15 AM', thumbnail: file1 },
+    { id: 'f2', name: 'Some file, scratch', meta: '7.5 MB 3.22.22, 11:15 AM', thumbnail: file2 },
+    { id: 'f3', name: 'List of someting.xd', meta: '7.5 MB 3.22.22, 11:15 AM', thumbnail: fileThumb04 },
+    { id: 'f4', name: 'Very important fil.svg', meta: '7.5 MB 3.22.22, 11:15 AM', thumbnail: user07 }
 ]
+
+const currentUser = {
+    name: 'You',
+    image: user06
+}
 
 const Messages = () => {
     const [query, setQuery] = useState('')
     const [activeId, setActiveId] = useState<string>(contacts[0]?.id ?? '')
     const [draft, setDraft] = useState('')
     const [messagesByContact, setMessagesByContact] = useState<Record<string, ChatMessage[]>>(initialMessages)
+    const messagesContainerRef = useRef<HTMLDivElement | null>(null)
 
     const filteredContacts = useMemo(
         () => contacts.filter((contact) => contact.name.toLowerCase().includes(query.toLowerCase())),
@@ -100,6 +107,16 @@ const Messages = () => {
 
     const activeContact = contacts.find((contact) => contact.id === resolvedActiveId)
     const activeMessages = resolvedActiveId ? messagesByContact[resolvedActiveId] ?? [] : []
+
+    useEffect(() => {
+        const container = messagesContainerRef.current
+        if (!container) return
+
+        container.scrollTo({
+            top: container.scrollHeight,
+            behavior: 'smooth'
+        })
+    }, [resolvedActiveId, activeMessages.length])
 
     const sendMessage = () => {
         const content = draft.trim()
@@ -122,7 +139,7 @@ const Messages = () => {
     return (
         <section className="overflow-hidden rounded-4xl border border-slate-200 bg-[#f2f4f7]">
             <div className="grid h-180 lg:grid-cols-[280px_minmax(0,1fr)_280px]">
-                <aside className="flex min-h-0 flex-col border-b border-slate-200 bg-[#eceff3] p-4 lg:border-r lg:border-b-0">
+                <aside className="flex min-h-0 flex-col border-b border-slate-200 bg-[#E9EAEC] p-4 lg:border-r lg:border-b-0">
                     <h2 className="text-3xl font-bold text-title">Messages</h2>
 
                     <div className="relative mt-4">
@@ -187,7 +204,7 @@ const Messages = () => {
                                 </div>
                             </header>
 
-                            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
+                            <div ref={messagesContainerRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
                                 {activeMessages.map((message) => (
                                     <div key={message.id}>
                                         {message.dateLabel && (
@@ -198,7 +215,14 @@ const Messages = () => {
                                             </div>
                                         )}
 
-                                        <div className={`flex ${message.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
+                                        <div className={`flex items-end gap-2 ${message.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
+                                            <Image
+                                                src={message.sender === 'me' ? currentUser.image : activeContact.image}
+                                                alt={message.sender === 'me' ? currentUser.name : activeContact.name}
+                                                width={30}
+                                                height={30}
+                                                className="h-7.5 w-7.5 rounded-full object-cover"
+                                            />
                                             <div className={`max-w-[74%] ${message.sender === 'me' ? 'items-end' : 'items-start'}`}>
                                                 {message.text ? (
                                                     <div className={`rounded-lg px-4 py-2 text-sm ${message.sender === 'me' ? 'bg-[#1f6fff] text-white' : 'bg-[#2f7df5] text-white'}`}>
@@ -253,7 +277,7 @@ const Messages = () => {
                     )}
                 </main>
 
-                <aside className="min-h-0 overflow-y-auto bg-[#eceff3] p-4">
+                <aside className="min-h-0 overflow-y-auto bg-[#E9EAEC] p-4">
                     {activeContact ? (
                         <>
                             <div className="mb-6 text-center">
@@ -272,7 +296,7 @@ const Messages = () => {
 
                                 <div className="space-y-2">
                                     {defaultAttachments.map((file) => (
-                                        <article key={file.id} className="flex items-start gap-2 rounded-lg bg-white p-2">
+                                        <article key={file.id} className="flex items-start gap-2 rounded-lg p-2">
                                             <Image src={file.thumbnail} alt={file.name} width={34} height={34} className="h-8 w-8 rounded-md object-cover" />
                                             <div>
                                                 <p className="text-sm font-medium text-title">{file.name}</p>

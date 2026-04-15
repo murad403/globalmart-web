@@ -2,7 +2,7 @@
 
 import { Eye } from "lucide-react"
 import { useMemo, useState } from "react"
-import OrderDetailsModal from "@/components/modal/OrderDetailsModal"
+import OrderDetailsModal from "@/app/(wholesaler dashboard)/wholesaler/_components/OrderDetailsModal"
 import type { OrderRecord, OrderStatus } from "@/types/orders"
 
 type OrderListProps = {
@@ -75,7 +75,7 @@ export default function OrderList({ orders, onStatusChange }: OrderListProps) {
                 key={tab.value}
                 type="button"
                 onClick={() => setActiveTab(tab.value)}
-                className={`inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium transition ${
                   activeTab === tab.value ? "border-b-2 border-main text-main" : "text-description hover:text-title"
                 }`}
               >
