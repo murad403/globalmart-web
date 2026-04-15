@@ -12,7 +12,7 @@ export default function InventoryStats({ items }: InventoryStatsProps) {
   const outOfStock = items.filter((item) => getInventoryStatus(item.stock) === "Out of Stock").length
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:gap-6 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 md:gap-6 sm:grid-cols-2 xl:grid-cols-3">
       <article className="rounded-lg bg-linear-to-r from-[#2B7FFF] to-[#155DFC] p-5 text-white">
         <div className="flex items-start justify-between">
           <div>

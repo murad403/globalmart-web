@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import InventoryDeleteModal from "@/components/modal/InventoryDeleteModal"
-import InventoryUpdateModal from "@/components/modal/InventoryUpdateModal"
+import InventoryDeleteModal from "@/app/(wholesaler dashboard)/wholesaler/_components/InventoryDeleteModal"
+import InventoryUpdateModal from "@/app/(wholesaler dashboard)/wholesaler/_components/InventoryUpdateModal"
 import InventoryList from "./InventoryList"
 import InventoryStats from "./InventoryStats"
 import type { InventoryItem } from "@/types/inventory"
+import WholeSalerPageHeader from "../_components/WholeSalerPageHeader"
 
 const initialInventory: InventoryItem[] = [
   { id: 1, name: "Ultra HD Camera", category: "Electronics", sku: "SKU-1001", stock: 45 },
@@ -32,10 +33,7 @@ export default function InventoryPage() {
 
   return (
     <section className="space-y-4 sm:space-y-5">
-      <header>
-        <h1 className="text-3xl font-bold text-title">Inventory</h1>
-        <p className="mt-1 text-description">Monitor stock levels across your warehouse</p>
-      </header>
+      <WholeSalerPageHeader description="Monitor stock levels across your warehouse" title="Inventory"/>
 
       <InventoryStats items={items} />
 

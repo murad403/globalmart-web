@@ -34,12 +34,12 @@ export default function InventoryList({ items, onEdit, onDelete }: InventoryList
         <table className="min-w-full">
           <thead>
             <tr className="border-b border-border bg-muted/20">
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Product</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Category</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">SKU</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Stock Level</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Status</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Actions</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Product</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Category</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">SKU</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title whitespace-nowrap uppercase">Stock Level</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Status</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Actions</th>
             </tr>
           </thead>
 
@@ -52,27 +52,27 @@ export default function InventoryList({ items, onEdit, onDelete }: InventoryList
                       <Box className="size-4" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-title">{item.name}</p>
+                      <p className="text-sm font-semibold text-title whitespace-nowrap">{item.name}</p>
                       <p className="text-xs text-description">ID: #{item.id}</p>
                     </div>
                   </div>
                 </td>
 
                 <td className="px-4 py-4 text-sm text-description">{item.category}</td>
-                <td className="px-4 py-4 text-sm text-description">{item.sku}</td>
+                <td className="px-4 py-4 text-sm text-description whitespace-nowrap">{item.sku}</td>
 
                 <td className="px-4 py-4">
                   <p className="text-sm font-semibold text-title">{item.stock}</p>
                   <div className="mt-1 h-1.5 w-21 rounded-full bg-muted">
                     <div
-                      className={`h-1.5 rounded-full ${item.stock <= 0 ? "bg-red-400" : item.stock <= 10 ? "bg-orange-500" : "bg-emerald-500"}`}
+                      className={`h-1.5 rounded-full  ${item.stock <= 0 ? "bg-red-400" : item.stock <= 10 ? "bg-orange-500" : "bg-emerald-500"}`}
                       style={{ width: `${Math.max(Math.min((item.stock / 200) * 100, 100), item.stock > 0 ? 6 : 0)}%` }}
                     />
                   </div>
                 </td>
 
                 <td className="px-4 py-4">
-                  <span className={`rounded-full px-3 py-1 text-xs font-medium ${statusStyles(item.stock)}`}>
+                  <span className={`rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap ${statusStyles(item.stock)}`}>
                     {getInventoryStatus(item.stock)}
                   </span>
                 </td>

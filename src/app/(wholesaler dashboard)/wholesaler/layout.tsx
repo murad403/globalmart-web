@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Bell, Boxes, ChartColumn, DollarSign, LayoutGrid, LogOut, ShoppingCart, Users, UserRound, Download, Settings } from "lucide-react"
+import { Bell, Boxes, ChartColumn, DollarSign, LayoutGrid, LogOut, ShoppingCart, Users, UserRound, Download, Settings, MessageSquareText } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarRail, SidebarTrigger} from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip";
 
@@ -16,6 +16,7 @@ const menuItems = [
   { label: "My Products", href: "/wholesaler/my-products", icon: Boxes },
   { label: "Import Products", href: "/wholesaler/import-products", icon: Download },
   { label: "Orders", href: "/wholesaler/orders", icon: ShoppingCart },
+  { label: "Message", href: "/wholesaler/message", icon: MessageSquareText },
   { label: "Inventory", href: "/wholesaler/inventory", icon: Boxes },
   { label: "Resellers", href: "/wholesaler/resellers", icon: Users },
   { label: "Finance", href: "/wholesaler/finance", icon: DollarSign },
