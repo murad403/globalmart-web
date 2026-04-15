@@ -1,4 +1,4 @@
-import WholeSalerPageHeader from "../_components/WholeSalerPageHeader"
+import WholeSalerPageHeader from "../../../../components/shared/SellerPageHeader"
 import FinanceStats from "./FinanceStats"
 import TransactionHistory from "./TransactionHistory"
 import WithdrawFunds from "./WithdrawFunds"

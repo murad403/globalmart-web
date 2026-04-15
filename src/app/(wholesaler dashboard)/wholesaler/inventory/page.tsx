@@ -6,7 +6,7 @@ import InventoryUpdateModal from "@/app/(wholesaler dashboard)/wholesaler/_compo
 import InventoryList from "./InventoryList"
 import InventoryStats from "./InventoryStats"
 import type { InventoryItem } from "@/types/inventory"
-import WholeSalerPageHeader from "../_components/WholeSalerPageHeader"
+import WholeSalerPageHeader from "../../../../components/shared/SellerPageHeader"
 
 const initialInventory: InventoryItem[] = [
   { id: 1, name: "Ultra HD Camera", category: "Electronics", sku: "SKU-1001", stock: 45 },

@@ -1,5 +1,5 @@
 import React from 'react'
-import WholeSalerPageHeader from '../_components/WholeSalerPageHeader'
+import WholeSalerPageHeader from '../../../../components/shared/SellerPageHeader'
 import Messages from './Messages'
 
 const page = () => {

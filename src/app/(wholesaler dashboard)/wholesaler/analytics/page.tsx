@@ -1,4 +1,4 @@
-import WholeSalerPageHeader from "../_components/WholeSalerPageHeader"
+import WholeSalerPageHeader from "../../../../components/shared/SellerPageHeader"
 import AnalyticsStats from "./AnalyticsStats"
 import OrderVolume from "./OrderVolume"
 import RegionalDistribution from "./RegionalDistribution"

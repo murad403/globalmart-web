@@ -1,4 +1,4 @@
-import WholeSalerPageHeader from "../_components/WholeSalerPageHeader"
+import WholeSalerPageHeader from "../../../../components/shared/SellerPageHeader"
 import ResellerNetwork from "./ResellerNetwork"
 import ResellersStats from "./ResellersStats"
 

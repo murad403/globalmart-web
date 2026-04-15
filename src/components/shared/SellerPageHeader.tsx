@@ -1,6 +1,6 @@
 import React from 'react'
 
-const WholeSalerPageHeader = ({title, description}: {title: string; description: string}) => {
+const SellerPageHeader = ({title, description}: {title: string; description: string}) => {
     return (
         <header>
             <h1 className="text-2xl md:text-3xl font-bold text-title">{title}</h1>
@@ -9,4 +9,4 @@ const WholeSalerPageHeader = ({title, description}: {title: string; description:
     )
 }
 
-export default WholeSalerPageHeader
+export default SellerPageHeader

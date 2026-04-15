@@ -1,34 +1,30 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Bell, Boxes, ChartColumn, DollarSign, LayoutGrid, LogOut, ShoppingCart, Users, UserRound, Download, Settings, MessageSquareText } from "lucide-react"
+import { Bell, LayoutGrid, LogOut, ShoppingCart, UserRound, Settings, MessageSquareText, Search, Store, School, Wallet } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarRail, SidebarTrigger } from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip";
+import React from "react"
 
-
-
-type WholesalerLayoutProps = {
-  children: React.ReactNode
-}
 
 const menuItems = [
-  { label: "Overview", href: "/wholesaler", icon: LayoutGrid },
-  { label: "My Products", href: "/wholesaler/my-products", icon: Boxes },
-  { label: "Import Products", href: "/wholesaler/import-products", icon: Download },
-  { label: "Orders", href: "/wholesaler/orders", icon: ShoppingCart },
-  { label: "Message", href: "/wholesaler/message", icon: MessageSquareText },
-  { label: "Inventory", href: "/wholesaler/inventory", icon: Boxes },
-  { label: "Resellers", href: "/wholesaler/resellers", icon: Users },
-  { label: "Finance", href: "/wholesaler/finance", icon: DollarSign },
-  { label: "Analytics", href: "/wholesaler/analytics", icon: ChartColumn },
-  { label: "Settings", href: "/wholesaler/settings", icon: Settings },
+  { label: "Overview", href: "/reseller", icon: LayoutGrid },
+  { label: "Catalog", href: "/reseller/my-products", icon: Search },
+  { label: "My Store", href: "/reseller/import-products", icon: Store },
+  { label: "Storefront", href: "/reseller/orders", icon: School },
+  { label: "Orders", href: "/reseller/orders", icon: ShoppingCart },
+  { label: "Message", href: "/reseller/message", icon: MessageSquareText },
+  { label: "Finance", href: "/reseller/finance", icon: ShoppingCart },
+  { label: "Reports", href: "/reseller/finance", icon: Wallet },
+  { label: "Notifications", href: "/reseller/finance", icon: Bell },
+  { label: "Settings", href: "/reseller/finance", icon: Settings },
 ]
 
-export default function WholesalerLayout({ children }: WholesalerLayoutProps) {
+export default function ResellerLayout({ children }: {children: React.ReactNode}) {
   const pathname = usePathname()
 
   const isMenuActive = (href: string) => {
-    if (href === "/wholesaler") {
+    if (href === "/reseller") {
       return pathname === href
     }
 
@@ -90,7 +86,7 @@ export default function WholesalerLayout({ children }: WholesalerLayoutProps) {
           <SidebarFooter className="px-3 pb-4 group-data-[collapsible=icon]:px-2">
             <div className="space-y-2 rounded-xl border border-white/10 bg-white/5 p-3 group-data-[collapsible=icon]:hidden">
               <p className="text-xs uppercase tracking-wide text-white/50">Logged in as</p>
-              <p className="text-sm font-medium text-white">Wholesaler</p>
+              <p className="text-sm font-medium text-white">Reseller</p>
             </div>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -121,8 +117,8 @@ export default function WholesalerLayout({ children }: WholesalerLayoutProps) {
                   </span>
                 </button>
                 <div className="hidden sm:block text-right">
-                  <p className="text-sm font-semibold text-title">Premium Wholesaler</p>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-main">Wholesaler</p>
+                  <p className="text-sm font-semibold text-title">Premium Reseller</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-main">Reseller</p>
                 </div>
                 <div className="grid size-9 place-items-center rounded-full bg-main text-sm font-semibold text-white">
                   <UserRound className="size-4" />

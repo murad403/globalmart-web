@@ -4,6 +4,7 @@ import { useState } from "react"
 import OrderList from "./OrderList"
 import OrderStats from "./OrderStats"
 import type { OrderRecord, OrderStatus } from "@/types/orders"
+import SellerPageHeader from "@/components/shared/SellerPageHeader"
 
 const initialOrders: OrderRecord[] = [
   {
@@ -47,10 +48,7 @@ export default function OrdersPage() {
 
   return (
     <section className="space-y-4 sm:space-y-5">
-      <header>
-        <h1 className="text-3xl font-bold text-title">Orders</h1>
-        <p className="mt-1 text-description">Track and process incoming wholesale orders</p>
-      </header>
+      <SellerPageHeader title="Orders" description="Track and process incoming wholesale orders"/>
 
       <OrderStats orders={orders} />
 

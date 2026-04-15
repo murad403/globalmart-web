@@ -1,7 +1,7 @@
 import Stats from "./overview/Stats"
 import RecentOrders from "./overview/RecentOrders"
 import WeeklySales from "./overview/WeeklySales"
-import WholeSalerPageHeader from "./_components/WholeSalerPageHeader"
+import WholeSalerPageHeader from "../../../components/shared/SellerPageHeader"
 
 
 export default function WholesalerDashboardPage() {

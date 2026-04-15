@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Bell, Box, BriefcaseBusiness, CreditCard, DollarSign, Lock, UserRound } from "lucide-react"
-import WholeSalerPageHeader from "../_components/WholeSalerPageHeader"
+import WholeSalerPageHeader from "../../../../components/shared/SellerPageHeader"
 
 type SettingsShellProps = {
   title: string
