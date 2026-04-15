@@ -1,7 +1,7 @@
 "use client"
 
 import Image, { type StaticImageData } from 'next/image'
-import { Check, Pencil, Search, Trash2 } from 'lucide-react'
+import { Check, ChevronDown, Pencil, Search, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import SellerPageHeader from '@/components/shared/SellerPageHeader'
 import Pagination from '@/components/shared/Pagination'
@@ -90,18 +90,21 @@ const Page = () => {
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <select
-            value={filterStatus}
-            onChange={(event) => {
-              setFilterStatus(event.target.value)
-              setCurrentPage(1)
-            }}
-            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-title outline-none sm:w-auto"
-          >
-            <option>All</option>
-            <option>Active</option>
-            <option>Draft</option>
-          </select>
+          <div className="relative w-full sm:w-auto">
+            <select
+              value={filterStatus}
+              onChange={(event) => {
+                setFilterStatus(event.target.value)
+                setCurrentPage(1)
+              }}
+              className="h-10 w-full appearance-none rounded-lg border border-slate-200 bg-white px-3 pr-11 text-sm text-title outline-none sm:min-w-34"
+            >
+              <option>All</option>
+              <option>Active</option>
+              <option>Draft</option>
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          </div>
         </div>
       </div>
 

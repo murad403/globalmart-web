@@ -6,9 +6,10 @@ type CatalogCardProps = {
     wholesalePrice: number
     stock: number
     moq: number
+    onCopyToStore: () => void
 }
 
-const CatalogCard = ({ image, name, wholesalePrice, stock, moq }: CatalogCardProps) => {
+const CatalogCard = ({ image, name, wholesalePrice, stock, moq, onCopyToStore }: CatalogCardProps) => {
     return (
         <article className="overflow-hidden rounded-xl border border-slate-200 bg-white">
             <div className="relative h-32 w-full bg-slate-50 sm:h-36">
@@ -24,6 +25,7 @@ const CatalogCard = ({ image, name, wholesalePrice, stock, moq }: CatalogCardPro
 
                 <button
                     type="button"
+                    onClick={onCopyToStore}
                     className="mt-1 h-9 w-full cursor-pointer rounded-md bg-main text-sm font-semibold text-white transition hover:opacity-95"
                 >
                     Copy to Store

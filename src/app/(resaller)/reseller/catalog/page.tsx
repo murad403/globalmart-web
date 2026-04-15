@@ -1,6 +1,6 @@
 "use client"
-import { useMemo, useState } from 'react'
-import { Filter, Search } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { ChevronDown, Filter, Search } from 'lucide-react'
 import SellerPageHeader from '@/components/shared/SellerPageHeader'
 import Pagination from '@/components/shared/Pagination'
 import CatalogCard from './CatalogCard'
@@ -24,6 +24,7 @@ const Page = () => {
     const [searchText, setSearchText] = useState('')
     const [activeCategory, setActiveCategory] = useState('All Categories')
     const [currentPage, setCurrentPage] = useState(1)
+    const [toastMessage, setToastMessage] = useState('')
 
     const pageSize = 6
 
@@ -38,6 +39,17 @@ const Page = () => {
     const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize))
     const startIndex = (currentPage - 1) * pageSize
     const visibleProducts = filteredProducts.slice(startIndex, startIndex + pageSize)
+
+    useEffect(() => {
+        if (!toastMessage) return
+
+        const timer = setTimeout(() => setToastMessage(''), 1800)
+        return () => clearTimeout(timer)
+    }, [toastMessage])
+
+    const handleCopyToStore = (productName: string) => {
+        setToastMessage(`${productName} copied to store successfully.`)
+    }
 
     return (
         <div className="space-y-5">
@@ -63,19 +75,22 @@ const Page = () => {
                         Filters
                     </button>
 
-                    <select
-                        value={activeCategory}
-                        onChange={(event) => {
-                            setActiveCategory(event.target.value)
-                            setCurrentPage(1)
-                        }}
-                        className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-title outline-none sm:w-auto"
-                    >
-                        <option>All Categories</option>
-                        <option>Electronics</option>
-                        <option>Photography</option>
-                        <option>Accessories</option>
-                    </select>
+                    <div className="relative w-full sm:w-auto">
+                        <select
+                            value={activeCategory}
+                            onChange={(event) => {
+                                setActiveCategory(event.target.value)
+                                setCurrentPage(1)
+                            }}
+                            className="h-10 w-full appearance-none rounded-lg border border-slate-200 bg-white px-3 pr-11 text-sm text-title outline-none sm:min-w-40"
+                        >
+                            <option>All Categories</option>
+                            <option>Electronics</option>
+                            <option>Photography</option>
+                            <option>Accessories</option>
+                        </select>
+                        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                    </div>
                 </div>
             </div>
 
@@ -88,6 +103,7 @@ const Page = () => {
                         wholesalePrice={product.wholesalePrice}
                         stock={product.stock}
                         moq={product.moq}
+                        onCopyToStore={() => handleCopyToStore(product.name)}
                     />
                 ))}
             </div>
@@ -97,6 +113,12 @@ const Page = () => {
             ) : null}
 
             <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} className="mt-2" />
+
+            {toastMessage ? (
+                <div className="fixed right-4 bottom-4 z-50 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-medium text-white shadow-lg">
+                    {toastMessage}
+                </div>
+            ) : null}
         </div>
     )
 }
