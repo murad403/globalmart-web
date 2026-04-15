@@ -33,7 +33,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, className }: Pagina
   }
 
   return (
-    <nav className={`mt-10 flex items-center justify-center gap-1 ${className ?? ''}`}>
+    <nav className={`mt-10 flex flex-wrap items-center justify-center gap-1 ${className ?? ''}`}>
       <button
         type="button"
         onClick={() => handlePageChange(currentPage - 1)}

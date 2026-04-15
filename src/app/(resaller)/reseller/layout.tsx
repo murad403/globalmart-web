@@ -9,15 +9,14 @@ import React from "react"
 
 const menuItems = [
   { label: "Overview", href: "/reseller", icon: LayoutGrid },
-  { label: "Catalog", href: "/reseller/my-products", icon: Search },
-  { label: "My Store", href: "/reseller/import-products", icon: Store },
-  { label: "Storefront", href: "/reseller/orders", icon: School },
+  { label: "Catalog", href: "/reseller/catalog", icon: Search },
+  { label: "My Store", href: "/reseller/my-store", icon: Store },
   { label: "Orders", href: "/reseller/orders", icon: ShoppingCart },
   { label: "Message", href: "/reseller/message", icon: MessageSquareText },
   { label: "Finance", href: "/reseller/finance", icon: ShoppingCart },
-  { label: "Reports", href: "/reseller/finance", icon: Wallet },
-  { label: "Notifications", href: "/reseller/finance", icon: Bell },
-  { label: "Settings", href: "/reseller/finance", icon: Settings },
+  { label: "Reports", href: "/reseller/reports", icon: Wallet },
+  { label: "Notifications", href: "/reseller/notifications", icon: Bell },
+  { label: "Settings", href: "/reseller/settings", icon: Settings },
 ]
 
 export default function ResellerLayout({ children }: {children: React.ReactNode}) {
