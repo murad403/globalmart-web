@@ -90,7 +90,7 @@ const TransactionsTable = ({ transactions, currentPage, totalPages, totalCount, 
                     <div>{transaction.location}</div>
                   </td>
                   <td className="px-4 py-4">
-                    <Link href={`/profile/transactions/${transaction.id}`} className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-title transition hover:border-[#155DFC] hover:text-heading">
+                    <Link href={`/profile/transactions/${transaction.id}`} className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-title transition hover:border-heading hover:text-heading">
                       <Eye className="h-3.5 w-3.5" />
                       View Receipt
                     </Link>

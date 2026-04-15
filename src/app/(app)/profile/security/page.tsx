@@ -1,9 +1,11 @@
-import React from 'react'
+import ChangePassword from './ChangePassword'
+import SignInActivity from './SignInActivity'
 
 const page = () => {
   return (
-    <div>
-      security page
+    <div className="space-y-6">
+      <ChangePassword />
+      <SignInActivity />
     </div>
   )
 }

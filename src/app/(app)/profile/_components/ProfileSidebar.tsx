@@ -28,13 +28,14 @@ const ProfileSidebar = () => {
                         <Link
                             key={item.label}
                             href={item.href}
-                            className={`flex items-center gap-2.5 rounded-xl px-3 py-3 text-sm font-semibold transition ${isActive
-                                    ? 'bg-[#FFF1E8] text-heading border-l-4 border-heading font-semibold'
-                                    : 'text-title hover:bg-slate-50'
+                            className={`flex items-center gap-2.5 rounded-xl relative px-3 py-3 text-sm font-semibold transition ${isActive
+                                ? 'bg-[#FFF1E8] text-heading font-semibold'
+                                : 'text-title hover:bg-slate-50'
                                 }`}
                         >
                             <Icon className={`size-5`} />
                             <span>{item.label}</span>
+                                <div className={`absolute h-6 w-1 bg-heading left-0 rounded-xl ${isActive ? 'block' : 'hidden'}`}></div>
                         </Link>
                     )
                 })}
