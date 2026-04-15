@@ -130,7 +130,7 @@ export default function WholesalerLayout({ children }: WholesalerLayoutProps) {
             </div>
           </header>
 
-          <main className="min-h-[calc(100svh-4rem)] p-4 sm:p-6 bg-[#F9FAFB]">{children}</main>
+          <main className="min-h-[calc(100svh-5rem)] p-4 sm:p-6 bg-[#F9FAFB]">{children}</main>
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>
