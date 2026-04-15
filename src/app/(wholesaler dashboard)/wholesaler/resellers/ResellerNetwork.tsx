@@ -1,8 +1,7 @@
 "use client"
-
 import { useState } from "react"
 import { Eye } from "lucide-react"
-import ResellerDetailsModal, { type ResellerModalData } from "@/components/modal/ResellerDetailsModal"
+import ResellerDetailsModal, { type ResellerModalData } from "@/app/(wholesaler dashboard)/wholesaler/_components/ResellerDetailsModal"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 type ResellerRow = ResellerModalData & {
@@ -105,13 +104,13 @@ export default function ResellerNetwork() {
           <table className="min-w-full">
             <thead>
               <tr className="border-b border-border bg-muted/20">
-                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Reseller</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Email</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Joined Date</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Total Orders</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Total Revenue</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Status</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Actions</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Reseller</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Email</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Joined Date</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Total Orders</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Total Revenue</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Status</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Actions</th>
               </tr>
             </thead>
 
@@ -130,9 +129,8 @@ export default function ResellerNetwork() {
                   <td className="px-4 py-4 text-sm font-semibold text-green-500">{reseller.totalRevenue}</td>
                   <td className="px-4 py-4 text-sm">
                     <span
-                      className={`rounded-full px-3 py-1 text-xs font-medium ${
-                        reseller.status === "Active" ? "bg-emerald-500/15 text-green-500" : "bg-red-500/15 text-red-600"
-                      }`}
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${reseller.status === "Active" ? "bg-emerald-500/15 text-green-500" : "bg-red-500/15 text-red-600"
+                        }`}
                     >
                       {reseller.status}
                     </span>

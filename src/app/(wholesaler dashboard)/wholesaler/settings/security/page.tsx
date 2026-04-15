@@ -59,9 +59,6 @@ export default function SecurityPage() {
           <button type="submit" className="h-10 cursor-pointer rounded-lg bg-main px-5 text-sm font-semibold text-white hover:opacity-90">
             Update Password
           </button>
-          <button type="reset" className="text-sm cursor-pointer font-medium text-description hover:text-title">
-            Cancel
-          </button>
         </div>
       </form>
     </SettingsShell>

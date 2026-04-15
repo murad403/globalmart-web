@@ -52,9 +52,8 @@ export default function ResellerDetailsModal({ isOpen, reseller, onClose }: Rese
                 <p className="mt-1 text-base md:text-lg text-description">{reseller.email}</p>
                 <div className="mt-3 flex flex-wrap items-center gap-3">
                   <span
-                    className={`rounded-full px-2 py-0.5 text-sm font-medium ${
-                      reseller.status === "Active" ? "bg-emerald-500/20 text-emerald-700" : "bg-amber-500/25 text-amber-700"
-                    }`}
+                    className={`rounded-full px-2 py-0.5 text-sm font-medium ${reseller.status === "Active" ? "bg-emerald-500/20 text-emerald-700" : "bg-amber-500/25 text-amber-700"
+                      }`}
                   >
                     {reseller.status}
                   </span>
@@ -70,19 +69,19 @@ export default function ResellerDetailsModal({ isOpen, reseller, onClose }: Rese
                 <Box className="size-4" />
                 Total Orders
               </p>
-              <p className="mt-2 text-3xl leading-none font-semibold text-title">{reseller.totalOrders}</p>
+              <p className="mt-2 text-xl md:text-2xl leading-none font-semibold text-title">{reseller.totalOrders}</p>
             </div>
             <div className="rounded-2xl border border-border p-4 sm:p-5">
               <p className="flex items-center gap-2 text-xs font-medium tracking-wide text-description uppercase">
                 <Star className="size-4" />
                 Total Revenue
               </p>
-              <p className="mt-2 text-3xl leading-none font-semibold text-emerald-600">{reseller.totalRevenue}</p>
+              <p className="mt-2 text-xl md:text-2xl leading-none font-semibold text-emerald-600">{reseller.totalRevenue}</p>
             </div>
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold text-title uppercase">Management Actions</h4>
+            <h4 className="text-base font-semibold text-title uppercase">Management Actions</h4>
             <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
               <button type="button" className="flex h-11 items-center justify-center gap-2 rounded-lg bg-emerald-500/15 text-sm font-semibold text-emerald-700">
                 <CheckCircle2 className="size-4" />

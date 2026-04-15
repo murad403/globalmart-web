@@ -6,7 +6,7 @@ export default function WithdrawFunds() {
       <h2 className="text-xl font-semibold text-title">Withdraw Funds</h2>
       <p className="text-sm text-description">Transfer your earnings</p>
 
-      <div className="mt-5 rounded-lg bg-main/8 p-4">
+      <div className="mt-5 rounded-lg bg-[#EFF6FF] p-4">
         <p className="text-sm font-semibold tracking-wide text-main uppercase">Available for withdrawal</p>
         <p className="mt-1 text-3xl leading-none font-semibold text-[#1C398E]">$42,180.50</p>
       </div>

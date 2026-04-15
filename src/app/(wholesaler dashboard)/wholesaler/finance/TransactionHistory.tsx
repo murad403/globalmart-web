@@ -34,18 +34,18 @@ export default function TransactionHistory() {
         <table className="min-w-full">
           <thead>
             <tr className="border-b border-border bg-muted/20">
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Transaction ID</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Type</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Amount</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Status</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-description uppercase">Date</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title whitespace-nowrap uppercase">Transaction ID</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Type</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Amount</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Status</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-title uppercase">Date</th>
             </tr>
           </thead>
           <tbody>
             {transactions.map((transaction) => (
               <tr key={transaction.id} className="border-b border-border/80 last:border-0">
                 <td className="px-4 py-4 text-sm font-semibold text-title">{transaction.id}</td>
-                <td className="px-4 py-4 text-sm text-description">{transaction.type}</td>
+                <td className="px-4 py-4 text-sm text-description whitespace-nowrap">{transaction.type}</td>
                 <td className={`px-4 py-4 text-sm font-semibold ${transaction.isPositive ? "text-emerald-600" : "text-red-500"}`}>
                   {transaction.amount}
                 </td>
@@ -54,7 +54,7 @@ export default function TransactionHistory() {
                     {transaction.status}
                   </span>
                 </td>
-                <td className="px-4 py-4 text-sm text-description">{transaction.date}</td>
+                <td className="px-4 py-4 text-sm text-description whitespace-nowrap">{transaction.date}</td>
               </tr>
             ))}
           </tbody>

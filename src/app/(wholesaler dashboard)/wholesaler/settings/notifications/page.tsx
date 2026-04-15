@@ -50,8 +50,8 @@ export default function NotificationsPage() {
         {notificationItems.map((item) => (
           <div key={item.key} className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-lg font-medium text-title">{item.title}</p>
-              <p className="text-sm text-description">{item.subtitle}</p>
+              <p className="text-base font-medium text-title">{item.title}</p>
+              <p className="text-xs text-description">{item.subtitle}</p>
             </div>
 
             <button

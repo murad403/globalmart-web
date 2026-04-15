@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Bell, Box, BriefcaseBusiness, CreditCard, DollarSign, Lock, UserRound } from "lucide-react"
+import WholeSalerPageHeader from "../_components/WholeSalerPageHeader"
 
 type SettingsShellProps = {
   title: string
@@ -25,10 +26,7 @@ export default function SettingsShell({ title, description, children }: Settings
 
   return (
     <section className="space-y-4 sm:space-y-5">
-      <header>
-        <h1 className="text-3xl font-bold text-title">Settings</h1>
-        <p className="mt-1 text-description">Manage your account settings and preferences</p>
-      </header>
+      <WholeSalerPageHeader title="Settings" description="Manage your account settings and preferences"/>
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-[270px_1fr]">
         <aside className="overflow-hidden rounded-xl border border-border bg-card">
