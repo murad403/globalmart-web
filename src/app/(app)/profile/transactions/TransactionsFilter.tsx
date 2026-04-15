@@ -1,6 +1,13 @@
 "use client"
 
 import { Filter, Search } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import { methodOptions, statusOptions, timeOptions } from './transactions-data'
 
 type TransactionsFilterProps = {
@@ -16,7 +23,7 @@ type TransactionsFilterProps = {
 
 const TransactionsFilter = ({ query, statusFilter, methodFilter, timeFilter, onQueryChange, onStatusChange, onMethodChange, onTimeChange }: TransactionsFilterProps) => {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white px-3 py-4">
       <div className="grid gap-2 lg:grid-cols-[minmax(0,1.25fr)_180px_180px_160px]">
         <div className="relative">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -24,48 +31,51 @@ const TransactionsFilter = ({ query, statusFilter, methodFilter, timeFilter, onQ
             value={query}
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder="Search transaction ID, receipt, or order..."
-            className="h-10 w-full rounded-md border border-slate-200 bg-white pl-9 pr-3 text-sm outline-none transition focus:border-[#155DFC]"
+            className="h-12 w-full rounded-md border border-slate-200 bg-[#F3F3F5] pl-9 pr-3 text-sm outline-none transition focus:border-heading"
           />
         </div>
 
         <div className="relative">
           <Filter className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <select
-            value={statusFilter}
-            onChange={(event) => onStatusChange(event.target.value as (typeof statusOptions)[number])}
-            className="h-10 w-full appearance-none rounded-md border border-slate-200 bg-white pl-9 pr-3 text-sm outline-none transition focus:border-[#155DFC]"
-          >
-            {statusOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <Select value={statusFilter} onValueChange={(value) => onStatusChange(value as (typeof statusOptions)[number])}>
+            <SelectTrigger className="w-full border-slate-200 bg-[#F3F3F5] pl-9 text-sm text-title hover:border-heading focus-visible:border-heading focus-visible:ring-0 data-[size=default]:h-12">
+              <SelectValue placeholder="All Status" />
+            </SelectTrigger>
+            <SelectContent>
+              {statusOptions.map((option) => (
+                <SelectItem key={option} value={option} className="cursor-pointer focus:bg-slate-100 focus:text-heading">
+                  {option}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        <select
-          value={methodFilter}
-          onChange={(event) => onMethodChange(event.target.value as (typeof methodOptions)[number])}
-          className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm outline-none transition focus:border-[#155DFC]"
-        >
-          {methodOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+        <Select value={methodFilter} onValueChange={(value) => onMethodChange(value as (typeof methodOptions)[number])}>
+          <SelectTrigger className="w-full border-slate-200 bg-[#F3F3F5] px-3 text-sm text-title hover:border-heading focus-visible:border-heading focus-visible:ring-0 data-[size=default]:h-12">
+            <SelectValue placeholder="All Methods" />
+          </SelectTrigger>
+          <SelectContent>
+            {methodOptions.map((option) => (
+              <SelectItem key={option} value={option} className="cursor-pointer focus:bg-slate-100 focus:text-heading">
+                {option}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-        <select
-          value={timeFilter}
-          onChange={(event) => onTimeChange(event.target.value as (typeof timeOptions)[number])}
-          className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm outline-none transition focus:border-[#155DFC]"
-        >
-          {timeOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+        <Select value={timeFilter} onValueChange={(value) => onTimeChange(value as (typeof timeOptions)[number])}>
+          <SelectTrigger className="w-full border-slate-200 bg-[#F3F3F5] px-3 text-sm text-title hover:border-heading focus-visible:border-heading focus-visible:ring-0 data-[size=default]:h-12">
+            <SelectValue placeholder="All Time" />
+          </SelectTrigger>
+          <SelectContent>
+            {timeOptions.map((option) => (
+              <SelectItem key={option} value={option} className="cursor-pointer focus:bg-slate-100 focus:text-heading">
+                {option}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     </div>
   )

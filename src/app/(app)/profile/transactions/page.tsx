@@ -1,10 +1,11 @@
 "use client"
-
 import { useMemo, useState } from 'react'
 import TransactionsStats from './TransactionsStats'
 import TransactionsFilter from './TransactionsFilter'
 import TransactionsTable from './TransactionsTable'
 import { methodOptions, statusOptions, timeOptions, transactions } from './transactions-data'
+
+
 
 const itemsPerPage = 10
 
@@ -49,8 +50,6 @@ const Page = () => {
   const totalPages = Math.max(1, Math.ceil(filteredTransactions.length / itemsPerPage))
   const safePage = Math.min(currentPage, totalPages)
   const pageSlice = filteredTransactions.slice((safePage - 1) * itemsPerPage, safePage * itemsPerPage)
-  const startIndex = filteredTransactions.length === 0 ? 0 : (safePage - 1) * itemsPerPage + 1
-  const endIndex = Math.min(safePage * itemsPerPage, filteredTransactions.length)
 
   return (
     <div className="space-y-5">
@@ -89,14 +88,8 @@ const Page = () => {
         currentPage={safePage}
         totalPages={totalPages}
         totalCount={filteredTransactions.length}
-        onPrevious={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-        onNext={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
         onPageChange={setCurrentPage}
       />
-
-      <p className="text-xs text-description">
-        Showing {startIndex}-{endIndex} of {filteredTransactions.length} filtered transactions.
-      </p>
     </div>
   )
 }

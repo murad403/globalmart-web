@@ -199,14 +199,14 @@ const Navbar = () => {
               <Link
                 href="/"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`block py-2 px-3 rounded-lg transition font-medium ${isActive('/') ? 'bg-white/25 text-heading' : 'hover:bg-white/20'}`}
+                className={`block py-2 px-3 rounded-lg transition font-medium ${isActive('/') ? ' text-heading' : 'hover:bg-white/20'}`}
               >
                 Home
               </Link>
               <Link
                 href="/all-products?source=all&title=All%20Product%20are%20Here!%20Grab%20It%20Fast"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`block py-2 px-3 rounded-lg transition font-medium ${isActive('/all-products') ? 'bg-white/25 text-heading' : 'hover:bg-white/20'}`}
+                className={`block py-2 px-3 rounded-lg transition font-medium ${isActive('/all-products') ? 'text-heading' : 'hover:bg-white/20'}`}
               >
                 All Products
               </Link>
